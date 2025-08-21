@@ -96,143 +96,22 @@
 
     let     # let
 
-      # definizioni usate negli output
+
+      # Import our library functions
+      lib = import ./lib { inherit nixpkgs nixpkgs-stable nixpkgs-unstable; };
+      
+      # Extract what we need
+      inherit (lib) forAllSystems mkPkgs;
 
       # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
       # Basic constants
+      # definizioni usate negli output
 
         # hostname  
         hostname = "macbook-pro-2018";       # machine hostname (used by nix-darwin)
 
       # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-      #========= supported systems ==========================
-
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-
-      # Helper: run a function for all systems and collect results
-      # Generate a map of outputs for all systems
-
-      forAllSystems = f: builtins.listToAttrs (map (system: {
-        name = system;
-        value = f system;
-       }) supportedSystems);
-
-      #========= pkgs =======================================
-
-      mkPkgs = system: let     # let_(system)
-
-        # "raw" base channels (imported without overlays)
-
-        pkgsStableRaw   = import nixpkgs-stable   { inherit system; config = { allowUnfree = true; }; };
-        pkgsUnstableRaw = import nixpkgs-unstable { inherit system; config = { allowUnfree = true; }; };
-
-        #  Overlay exposing both channels as `pkgs.stable` and `pkgs.unstable`.
-        #  Allows modules to mix versions, if needed.
-
-        channelsOverlay = final: prev: {
-          stable   = pkgsStableRaw;                    # pkgs.stable
-          unstable = pkgsUnstableRaw;                  # pkgs.unstable
-         };
-
-          wrapperOverlay = final: prev: {
-            sillytavern = final.symlinkJoin {
-              name = "sillytavern";
-              paths = [ prev.sillytavern ];
-              buildInputs = [ prev.makeWrapper ];       # wrapProgram helper
-              postBuild = ''
-                wrapProgram $out/bin/sillytavern \
-                  --run 'export XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}"' \
-                  --run 'export XDG_DATA_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}"' \
-                  --run 'mkdir -p "$XDG_CONFIG_HOME/sillytavern" "$XDG_DATA_HOME/sillytavern"' \
-                  --add-flags "--configPath \$XDG_CONFIG_HOME/sillytavern/config.yaml" \
-                  --add-flags "--dataRoot  \$XDG_DATA_HOME/sillytavern"
-              '';
-            };
-          };
-
-        # Primary package set (with channelsOverlay applied)
-
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ channelsOverlay wrapperOverlay ];
-          config = { allowUnfree = true; };
-         };                                           # pkgs
-
-        #========= collections ================================
-
-        # A collection of "must-have" packages.
-
-        basePkgs = with pkgs.stable; [
-          vim               # text editor
-          curl              # HTTP / debugging tools
-          git               # version control
-          jq                # JSON CLI manipulation
-          wget              # downloads
-          nixpkgs-fmt       # Nix code formatter
-          emacs             # emacs
-         ];
-
-       # /let_(system)
-
-     # /let
-
-    ########## in ############################################
-
-    in     # in
-
-      {     # in_{}
-
-          # ===================== Schemas ===============================
-
-          # schemas = flake-schemas.schemas;
-          # Visible via `nix flake show`.
-          # Enables auto‑completion / validation.
-
-          #========= pkgs =======================================
-
-          inherit pkgs pkgsStableRaw pkgsUnstableRaw basePkgs;
-
-          # ===================== Aggregate package =====================
-
-          # install with `nix profile install .#`
-
-          packages = {
-            default = pkgs.buildEnv {
-              name  = "user-packages";
-              paths = 
-                basePkgs
-                ++ (with pkgs.stable; [
-                  htop
-                  neovim
-                 ])
-                ++ (with pkgs.unstable; [
-                  alacritty
-                 ]);
-             };
-           };
-
-          # ===================== DevShell ==============================
-
-          # enter via `nix develop`
-
-          devShells = {
-            default = pkgs.mkShell {
-              packages = 
-                basePkgs
-                ++ 
-                (with pkgs.stable; [
-                  neovim
-                 ]);
-             };
-           };
-
-       };     # in_{}
 
       # ===================== nix-darwin (macOS only) ===============
 
@@ -242,8 +121,6 @@
         # build & switch with: `sudo darwin-rebuild switch --flake ~/my-nix`
 
         let
-
-          hostname = "macbook-pro-2018";
 
           env = mkPkgs system;
           pkgs = env.pkgs;
@@ -258,8 +135,8 @@
 
             specialArgs = {
               inherit inputs;
-              pkgsStable = env.pkgsStable;
-              pkgsUnstable = env.pkgsUnstable;
+              pkgsStable = env.pkgsStableRaw;
+              pkgsUnstable = env.pkgsUnstableRaw;
              };
             # makes additional values available inside modules
             # handy for Home-Manager, etc.
@@ -666,9 +543,19 @@
 
      # /in
 
-    in {
+    in 
+        
+          # ===================== Schemas ===============================
+
+          # schemas = flake-schemas.schemas;
+          # Visible via `nix flake show`.
+          # Enables auto‑completion / validation.
+
+    {
+      # Multi-system outputs
       packages = forAllSystems (system: (mkPkgs system).packages);
       devShells = forAllSystems (system: (mkPkgs system).devShells);
+      # Darwin configurations
       darwinConfigurations = darwinSystem "x86_64-darwin";
      };
 
