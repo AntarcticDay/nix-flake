@@ -100,7 +100,7 @@
       # Import our library functions
       lib = import ./lib { inherit nixpkgs nixpkgs-stable nixpkgs-unstable; };
       
-      # Extract what we need
+      # Extract what we need from lib
       inherit (lib) forAllSystems mkPkgs;
 
       # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -113,9 +113,40 @@
 
       # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-      # ===================== nix-darwin (macOS only) ===============
+
+      # Build outputs for a specific system
+
+      mkSystemOutputs = system: let
+        env = mkPkgs system;
+        collections = import ./packages/collections.nix { pkgs = env.pkgs; };
+      in {
+        packages = {
+          default = collections.userPackages;
+        };
+        
+        devShells = {
+          default = env.pkgs.mkShell {
+            packages = collections.devShellPackages;
+          };
+        };
+      };
+
+
+
+
+
+
+
+
+
+
+
+      # ===================== nix-darwin  (macOS only) ===============
+
+      # Darwin system configuration
 
       darwinSystem = system: 
+
 
         # nix-darwin system configuration
         # build & switch with: `sudo darwin-rebuild switch --flake ~/my-nix`
@@ -124,14 +155,14 @@
 
           env = mkPkgs system;
           pkgs = env.pkgs;
-          basePkgs = env.basePkgs;
+          collections = import ./packages/collections.nix { inherit pkgs; };
 
         in {
 
           ${hostname} = nix-darwin.lib.darwinSystem {     # darwinSystem
 
             inherit system;
-            pkgs = env.pkgs;     # build the system with the unstable channel
+            inherit pkgs;     # build the system with the unstable channel
 
             specialArgs = {
               inherit inputs;
@@ -170,7 +201,7 @@
                 # system-wide packages
                 # (global packages, available to every user)
                 environment.systemPackages = 
-                  basePkgs
+                  collections.base
                   ++ (with pkgs.stable; [
                     taisei
                    ])
@@ -541,23 +572,21 @@
 
        # /darwin_configuration
 
-     # /in
+     # /let
 
-    in 
-        
-          # ===================== Schemas ===============================
+    in {
 
-          # schemas = flake-schemas.schemas;
-          # Visible via `nix flake show`.
-          # Enables auto‑completion / validation.
-
-    {
       # Multi-system outputs
-      packages = forAllSystems (system: (mkPkgs system).packages);
-      devShells = forAllSystems (system: (mkPkgs system).devShells);
+      packages = forAllSystems (system: (mkSystemOutputs system).packages);
+      devShells = forAllSystems (system: (mkSystemOutputs system).devShells);
+      
       # Darwin configurations
       darwinConfigurations = darwinSystem "x86_64-darwin";
-     };
+      
+      # Schemas for validation
+      # schemas = flake-schemas.schemas;
+
+    };
 
    # /outputs
 

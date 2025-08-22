@@ -1,11 +1,11 @@
 
 # lib/mkPkgs.nix
-
 # Package set construction with overlays
 
 { nixpkgs, nixpkgs-stable, nixpkgs-unstable }:
 
 system:
+
 let
 
   #========= channels ==========================================
@@ -25,6 +25,7 @@ let
 
   #========= / channels ========================================
 
+
   #========= Overlay ===========================================
 
   # Overlay to expose both channels as pkgs.stable and pkgs.unstable
@@ -38,6 +39,7 @@ let
   };
 
   #========= / Overlay =========================================
+
 
   #========= SillyTavern =======================================
 
@@ -74,67 +76,11 @@ let
 
   #========= / pkgs =============================================
 
-  #========= basePkgs ===========================================
+in
 
-  # Collection of essential packages
-  # A collection of "must-have" packages.
+{
 
-  basePkgs = with pkgs.stable; [
-    vim         # text editor
-    curl        # HTTP / debugging tools
-    git         # version control
-    jq          # JSON CLI manipulation
-    wget        # downloads
-    nixpkgs-fmt # Nix code formatter
-    emacs       # emacs
-  ];
-
-  #========= / basePkgs =========================================
-
-in {
-
-  #========= inerit pkgs ========================================
-
-  inherit pkgs pkgsStableRaw pkgsUnstableRaw basePkgs;
-
-  #========= / inerit pkgs ======================================
-
-  # ===================== Aggregate package =====================
-
-          # install with `nix profile install .#`
-
-  # Default package set for the system
-  packages = {
-    default = pkgs.buildEnv {
-      name = "user-packages";
-      paths = basePkgs
-        ++ (with pkgs.stable; [
-          htop
-          neovim
-        ])
-        ++ (with pkgs.unstable; [
-          alacritty
-        ]);
-    };
-  };
-
-  # ===================== / Aggregate package ===================
-
-  # ===================== DevShell ==============================
-
-  # Development shell
-  # enter via `nix develop`
-
-  devShells = {
-    default = pkgs.mkShell {
-      packages = 
-        basePkgs 
-        ++ (with pkgs.stable; [
-          neovim
-        ]);
-    };
-  };
-
-  # ===================== / DevShell ============================
+  # Export only the package sets
+  inherit pkgs pkgsStableRaw pkgsUnstableRaw;
 
 }
