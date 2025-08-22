@@ -22,6 +22,9 @@
   homebrew = {
     enable = true;
     
+    # The base onActivation settings come from modules/darwin/homebrew.nix
+    # We can override them here if needed for this specific host
+
     onActivation = {
       autoUpdate = false;
       upgrade = true;
