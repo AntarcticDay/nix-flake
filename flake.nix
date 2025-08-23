@@ -20,7 +20,7 @@
   # ===========================================================================
   # This description appears when running `nix flake show` or `nix flake metadata`
   
-  description = "Determinate Nix flake for managing macOS and NixOS systems";
+  description = "Determinate Nix flake";
 
   # ===========================================================================
   # Flake Inputs
