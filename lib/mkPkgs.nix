@@ -32,6 +32,7 @@
 system:
 
 let
+
   # ===========================================================================
   # Base Channel Imports
   # ===========================================================================
@@ -42,10 +43,6 @@ let
   # ---------------------------------------------------------------------------
   # Stable Channel (Raw)
   # ---------------------------------------------------------------------------
-  # 
-  # The stable channel contains well-tested packages with security updates.
-  # Good for: servers, production tools, anything requiring stability
-  # Update cycle: ~6 months (follows NixOS releases)
   
   pkgsStableRaw = import nixpkgs-stable {
     # The system to build packages for (e.g., "x86_64-darwin")
@@ -67,10 +64,6 @@ let
   # ---------------------------------------------------------------------------
   # Unstable Channel (Raw)
   # ---------------------------------------------------------------------------
-  # 
-  # The unstable channel contains the latest package versions.
-  # Good for: development tools, desktop apps, cutting-edge software
-  # Update cycle: continuous (can change daily)
   
   pkgsUnstableRaw = import nixpkgs-unstable {
     inherit system;
@@ -117,24 +110,27 @@ let
   };
 
 in
+
 # ===========================================================================
 # Return Value
 # ===========================================================================
 # 
 # We return a set containing all our package collections.
 # This is what consuming code receives when calling mkPkgs.
+
 {
+
   # ---------------------------------------------------------------------------
   # Primary Package Set
   # ---------------------------------------------------------------------------
   # 
-  # This is the main package set with all overlays applied.
+  # The main package set with all overlays applied.
   # It includes:
   # - All packages from the default nixpkgs channel
   # - Our custom overlays (channels, sillytavern, etc.)
   # - Access to stable/unstable via pkgs.stable.* and pkgs.unstable.*
   # 
-  # Usage: pkgs.firefox, pkgs.git, pkgs.stable.postgresql, etc.
+  # Usage: pkgs.firefox, pkgs.stable.git, pkgs.unstable.neovim, etc.
   inherit pkgs;
   
   # ---------------------------------------------------------------------------
@@ -143,11 +139,11 @@ in
   # 
   # These provide direct access to unmodified channels.
   # Useful when:
-  # - You need a package without any overlays
+  # - Is needed a package without any overlays
   # - Debugging overlay issues
   # - Comparing modified vs unmodified packages
   # 
-  # Usage: pkgsStableRaw.firefox, pkgsUnstableRaw.neovim
+  # Usage: pkgsStableRaw.git, pkgsUnstableRaw.neovim
   inherit pkgsStableRaw pkgsUnstableRaw;
   
   # ---------------------------------------------------------------------------
@@ -167,6 +163,7 @@ in
   # 
   # # Package set for cross-compilation
   # pkgsCross = pkgs.pkgsCross.aarch64-multiplatform;
+
 }
 
 # =============================================================================
@@ -194,65 +191,6 @@ in
 #    - Raw channels imported separately
 #    - Overlays add them as pkgs.stable and pkgs.unstable
 #    - Allows mixing packages from different channels
-#
-# =============================================================================
-# Usage Examples
-# =============================================================================
-# 
-# In flake.nix:
-# ```nix
-# let
-#   lib = import ./lib { inherit nixpkgs nixpkgs-stable nixpkgs-unstable; };
-#   env = lib.mkPkgs "x86_64-darwin";
-# in {
-#   # Use the package set
-#   packages.x86_64-darwin.default = env.pkgs.hello;
-# }
-# ```
-# 
-# In a host configuration:
-# ```nix
-# let
-#   env = lib.mkPkgs "x86_64-darwin";
-# in {
-#   # System packages from different channels
-#   environment.systemPackages = with env.pkgs; [
-#     firefox                    # From default channel
-#     stable.postgresql_14       # From stable channel
-#     unstable.rust-analyzer     # From unstable channel
-#   ];
-# }
-# ```
-# 
-# Accessing raw channels:
-# ```nix
-# # When you need packages without overlay modifications
-# environment.systemPackages = [
-#   env.pkgsStableRaw.nginx    # Nginx from stable, no overlays
-# ];
-# ```
-#
-# =============================================================================
-# Understanding Overlays
-# =============================================================================
-# 
-# An overlay is a function: `final: prev: { ... }`
-# - `prev`: packages before this overlay
-# - `final`: final package set after all overlays
-# - Returns: attribute set of modifications
-# 
-# Example overlay:
-# ```nix
-# final: prev: {
-#   # Add a new package
-#   myPackage = final.callPackage ./my-package.nix { };
-#   
-#   # Modify existing package
-#   firefox = prev.firefox.override {
-#     cfg.enableGoogleTalk = true;
-#   };
-# }
-# ```
 #
 # =============================================================================
 # Configuration Options Explained
@@ -294,3 +232,15 @@ in
 # - Many overlays can slow evaluation
 # - Consider using fewer, more focused overlays
 # - Use `--show-trace` to debug slow evaluations
+
+# =============================================================================
+# Notes 
+# =============================================================================
+# 
+# Docs (official):
+# - Nixpkgs manual – overlays:
+#   https://nixos.org/manual/nixpkgs/stable/#chap-overlays
+# - Nixpkgs search:
+#   https://search.nixos.org/packages
+#
+# =============================================================================

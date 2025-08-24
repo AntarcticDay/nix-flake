@@ -3,9 +3,8 @@
 # =============================================================================
 # Home Manager Base Configuration Module
 # 
-# This module provides the foundational settings for Home Manager integration
-# with nix-darwin. It ensures Home Manager works efficiently and consistently
-# across all your systems.
+# This module ensures Home Manager works efficiently and consistently
+# across all our systems.
 #
 # What is Home Manager?
 # - A tool for managing user-specific configurations declaratively
@@ -222,3 +221,5 @@
 # ```bash
 # $ home-manager rollback
 # ```
+#
+# =============================================================================

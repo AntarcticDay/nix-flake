@@ -3,7 +3,7 @@
 # =============================================================================
 # Main entry point for the Determinate Nix flake configuration
 # 
-# This flake manages multiple systems (macOS and NixOS) using:
+# This flake manages multiple systems using:
 # - nix-darwin for macOS system configuration
 # - Home Manager for user-specific configuration
 # - Homebrew integration for macOS applications
@@ -40,15 +40,10 @@
     # We use multiple nixpkgs channels to balance stability and features
     
     # Stable channel via FlakeHub
-    # - Well-tested packages with security updates
-    # - Updated ~6 months (follows NixOS releases)
-    # - Use for: production tools, servers, critical software
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
     
     # Unstable channel from GitHub  
     # - Latest package versions and features
-    # - Updated continuously (can break)
-    # - Use for: desktop apps, development tools, cutting-edge software
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     
     # Default nixpkgs (what you get with just `pkgs`)
@@ -70,7 +65,6 @@
     };
     
     # nix-darwin - macOS system configuration
-    # - Like NixOS but for macOS
     # - Manages: system packages, services, preferences
     # - Declarative alternative to manual brew/defaults commands
     nix-darwin = {
@@ -84,7 +78,6 @@
     
     # nix-homebrew - Declarative Homebrew management
     # - Manages Homebrew installation and packages via Nix
-    # - Ensures reproducible brew environments
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
       # Note: doesn't follow our nixpkgs, uses its own pinned version
@@ -99,7 +92,7 @@
     };
     homebrew-cask = { 
       url = "github:homebrew/homebrew-cask"; 
-      flake = false; 
+      flake = false;  # This too
     };
     
     # -------------------------------------------------------------------------
@@ -111,7 +104,7 @@
     systems.url = "github:nix-systems/default";
     
     # Flake-utils - Helper functions for multi-system flakes
-    # Provides `eachSystem` and similar utilities
+    # Provides `eachSystem` and other utilities
     flake-utils.url = "github:numtide/flake-utils";
     
     # Treefmt-nix - Universal code formatter integration
@@ -267,7 +260,7 @@
       # -----------------------------------------------------------------------
       # NixOS System Configuration Builder (for future use)
       # -----------------------------------------------------------------------
-      # Placeholder for when you add NixOS systems
+      # Placeholder for future NixOS systems
       
       # mkNixosSystem = { hostname, system }:
       #   nixpkgs.lib.nixosSystem {
@@ -288,7 +281,7 @@
       # -----------------------------------------------------------------------
       # These are built for all supported systems
       
-      # Packages you can build or install
+      # Packages
       # Access with: nix build .#packages.x86_64-darwin.default
       packages = forAllSystems (system: 
         (mkSystemOutputs system).packages
@@ -314,8 +307,8 @@
         };
         
         # Future: Add more macOS systems here
-        # "macbook-air-m2" = mkDarwinSystem {
-        #   hostname = "macbook-air-m2";
+        # "macbook-pro-m5" = mkDarwinSystem {
+        #   hostname = "macbook-pro-m5";
         #   system = "aarch64-darwin";
         # };
       };
@@ -397,3 +390,5 @@
 # 2. Add configuration files (copy from existing host)
 # 3. Add to darwinConfigurations or nixosConfigurations
 # 4. Apply: `darwin-rebuild switch --flake .#new-hostname`
+# 
+# =============================================================================

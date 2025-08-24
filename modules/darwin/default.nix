@@ -24,6 +24,7 @@
 { pkgs, lib, config, ... }:
 
 {
+
   # ===========================================================================
   # Module Imports
   # ===========================================================================
@@ -158,6 +159,7 @@
     
     # Additional programs are configured in system.nix
   };
+
 }
 
 # =============================================================================
@@ -181,22 +183,6 @@
 # - Avoid conflicts by not managing what Determinate manages
 # - Let each tool do what it does best
 # - Determinate for Nix infrastructure, nix-darwin for system config
-#
-# =============================================================================
-# Module System Basics
-# =============================================================================
-# 
-# **How Imports Work**:
-# 1. Nix loads this file when you import the directory
-# 2. It then loads all files in the imports list
-# 3. All configurations are merged together
-# 4. Conflicts are resolved by priority (mkDefault < normal < mkForce)
-# 
-# **Module Structure**:
-# - Each file is a function that returns an attribute set
-# - The function receives { pkgs, lib, config, ... }
-# - The returned set contains configuration options
-# - Nix merges all sets together to build the final config
 #
 # =============================================================================
 # Adding New Modules
@@ -246,3 +232,5 @@
 # - Determinate Nix: https://docs.determinate.systems/determinate-nix/
 # - nix-darwin manual: https://daiderd.com/nix-darwin/manual/
 # - Nix pills (module system): https://nixos.org/guides/nix-pills/
+# 
+# =============================================================================

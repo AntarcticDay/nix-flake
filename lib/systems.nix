@@ -3,14 +3,8 @@
 # =============================================================================
 # System Architecture Support Utilities
 # 
-# This module provides utilities for handling multiple system architectures
-# (different combinations of CPU and OS). It ensures your flake works across
-# different platforms: Intel Macs, Apple Silicon Macs, Linux machines, etc.
-#
-# Why this matters:
-# - Nix packages must be built for specific CPU/OS combinations
-# - Different systems have different capabilities and limitations
-# - This module helps write code that works everywhere
+# This module provides utilities for handling multiple system architectures.
+# Intel Macs, Apple Silicon Macs, Linux machines, etc.
 #
 # Terminology:
 # - System: A string like "x86_64-linux" combining CPU architecture and OS
@@ -19,6 +13,7 @@
 # =============================================================================
 
 let
+
   # ===========================================================================
   # Supported Systems Definition
   # ===========================================================================
@@ -27,18 +22,15 @@ let
   # Each string follows the format: "<architecture>-<platform>"
   
   supportedSystems = [
+
     # ---------------------------------------------------------------------------
     # Linux Systems
     # ---------------------------------------------------------------------------
     
     # Intel/AMD 64-bit Linux
-    # Most common Linux platform for servers and desktops
-    # Used by: Traditional PCs, cloud VMs, older laptops
     "x86_64-linux"
     
     # ARM 64-bit Linux  
-    # Growing platform for efficient computing
-    # Used by: Raspberry Pi 4/5, ARM cloud instances, some Chromebooks
     "aarch64-linux"
     
     # ---------------------------------------------------------------------------
@@ -46,13 +38,9 @@ let
     # ---------------------------------------------------------------------------
     
     # Intel 64-bit macOS
-    # Legacy Apple hardware and some current models
-    # Used by: MacBook Pro 2018, iMac (Intel), Mac Mini (Intel)
     "x86_64-darwin"
     
     # Apple Silicon macOS
-    # Modern Apple hardware with M1/M2/M3 chips
-    # Used by: MacBook Air M1+, MacBook Pro M1+, Mac Studio, Mac Mini M1+
     "aarch64-darwin"
     
     # ---------------------------------------------------------------------------
@@ -72,6 +60,7 @@ let
     # 
     # # Windows via WSL2
     # "x86_64-windows"    # Requires WSL2 or similar
+
   ];
 
   # ===========================================================================
@@ -106,6 +95,7 @@ let
   isAarch64 = system: getArch system == "aarch64";
 
 in
+
 {
   # ===========================================================================
   # Exported Functions and Values
@@ -120,6 +110,7 @@ in
   # 
   # Export the list for other modules to use
   # Example usage: lib.supportedSystems
+
   inherit supportedSystems;
   
   # ---------------------------------------------------------------------------
@@ -127,7 +118,7 @@ in
   # ---------------------------------------------------------------------------
   # 
   # Export helper functions for system detection
-  # These are useful for conditional logic in configurations
+
   inherit getArch getPlatform isLinux isDarwin isX86_64 isAarch64;
   
   # ---------------------------------------------------------------------------
@@ -137,18 +128,7 @@ in
   # This is the main utility function for multi-platform support.
   # It applies a function to each supported system and returns
   # an attribute set with results.
-  # 
-  # Example input:
-  #   forAllSystems (system: { hello = pkgs.hello; })
-  # 
-  # Example output:
-  #   {
-  #     "x86_64-linux" = { hello = <derivation>; };
-  #     "aarch64-linux" = { hello = <derivation>; };
-  #     "x86_64-darwin" = { hello = <derivation>; };
-  #     "aarch64-darwin" = { hello = <derivation>; };
-  #   }
-  
+ 
   forAllSystems = f: 
     # builtins.listToAttrs converts a list of {name, value} pairs to an attrset
     builtins.listToAttrs (
@@ -173,10 +153,7 @@ in
         value = f system;
       }) (builtins.filter predicate supportedSystems)
     );
-  
-  # Example: Build only for Linux systems
-  # forMatchingSystems isLinux (system: { ... })
-  
+
   # ---------------------------------------------------------------------------
   # System Grouping Utilities
   # ---------------------------------------------------------------------------
@@ -198,6 +175,7 @@ in
   # All ARM64 systems
   aarch64Systems = builtins.filter isAarch64 supportedSystems;
   # Result: [ "aarch64-linux" "aarch64-darwin" ]
+
 }
 
 # =============================================================================
@@ -237,25 +215,6 @@ in
 # ```
 #
 # =============================================================================
-# Understanding the Code
-# =============================================================================
-# 
-# **The `let ... in` pattern**:
-# - `let` defines local variables and functions
-# - `in` starts the expression that uses those definitions
-# - Keeps internal helpers private
-# 
-# **The `inherit` keyword**:
-# - Shorthand for `name = name;`
-# - `inherit foo;` is the same as `foo = foo;`
-# - Makes selected internal definitions public
-# 
-# **Function composition**:
-# - `builtins.filter predicate list`: Keep only matching items
-# - `map function list`: Transform each item
-# - `builtins.listToAttrs`: Convert list to attribute set
-#
-# =============================================================================
 # Adding Support for New Systems
 # =============================================================================
 # 
@@ -287,3 +246,11 @@ in
 # - Building for a different system than you're on
 # - More complex, may need special configuration
 # - See nixpkgs manual on cross-compilation
+#
+# =============================================================================
+# Notes 
+# =============================================================================
+# 
+# Docs (official):
+# - Systems & platforms: https://nixos.org/manual/nixpkgs/stable/#systems
+# =============================================================================

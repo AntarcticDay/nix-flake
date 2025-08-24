@@ -5,7 +5,7 @@
 # 
 # This overlay modifies the SillyTavern package to follow XDG Base Directory
 # specifications. Instead of storing configuration and data in the current
-# directory, it will use standard locations like ~/.config and ~/.local/share.
+# directory, it will use standard locations.
 # 
 # Reference: https://mynixos.com/nixpkgs/package/sillytavern
 # =============================================================================
@@ -98,7 +98,7 @@ final: prev: {
 # Troubleshooting
 # =============================================================================
 # 
-# If SillyTavern isn't finding your config:
+# If SillyTavern isn't finding the config:
 # 1. Check that directories exist: ls -la ~/.config/sillytavern
 # 2. Verify the wrapper: cat $(which sillytavern)
 # 3. Run with debug: XDG_CONFIG_HOME=/tmp/test sillytavern
@@ -108,3 +108,5 @@ final: prev: {
 # 2. Backup: cp -r ~/.config/sillytavern ~/.config/sillytavern.bak
 # 3. Remove: rm -rf ~/.config/sillytavern ~/.local/share/sillytavern
 # 4. Restart (will create fresh config)
+#
+# =============================================================================

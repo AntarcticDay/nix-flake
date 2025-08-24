@@ -5,7 +5,7 @@
 # 
 # This module configures system-wide settings for macOS that apply to all users.
 # It handles shells, fonts, and other system preferences that affect the entire
-# machine rather than individual users.
+# system.
 #
 # What this module manages:
 # - Available shells and default shell settings
@@ -36,8 +36,8 @@
     # - Enables Zsh completions
     zsh.enable = true;
     
-    # You can also configure other shells:
-    # bash.enable = true;  # Bash is always available on macOS
+    # Other shells:
+    bash.enable = true;  # (redundant: bash is always available on macOS)
     # fish.enable = true;  # Fish shell (user-friendly)
   };
   
@@ -65,9 +65,7 @@
   # On macOS, these fonts are symlinked to ~/Library/Fonts/Nix Fonts/
   
   fonts.packages = with pkgs; [
-    # --- Programming Fonts ---
-    # These fonts are designed for coding with clear character distinction
-    
+
     # IBM Plex family - IBM's open source typeface
     # Includes Sans, Serif, and Mono variants
     ibm-plex
@@ -80,19 +78,13 @@
     # Good ligature support and clear at small sizes
     jetbrains-mono
     
-    # --- UI and Reading Fonts ---
-    
     # Lexend - Font family designed to improve reading proficiency
     # Studies show it can significantly improve reading speed
     lexend
     
-    # --- Scientific and Math Fonts ---
-    
     # XITS Math - Implementation of STIX fonts for mathematical typesetting
     # Essential for LaTeX and scientific documents
     xits-math
-    
-    # --- Accessibility Fonts ---
     
     # Atkinson Hyperlegible - Designed for low vision readers
     # Next generation with improved language support
@@ -104,10 +96,10 @@
 
     # --- Icon fonts ---
 
-    # nerdfonts              # Fonts patched with icons
+    # nerdfonts            # Fonts patched with icons
     font-awesome           # Icon font for web
 
-    # --- Additional fonts you might want ---
+    # --- Additional fonts ---
     # 
     # # Classic programming fonts
     # fira-code              # Popular font with ligatures
@@ -132,14 +124,14 @@
   # 
   # Uncomment and modify the sections you want to manage with Nix:
   
-  # system.defaults = {
+  system.defaults = {
   #   
   #   # ---------------------------------------------------------------------------
   #   # Dock Settings
   #   # ---------------------------------------------------------------------------
   #   # Configure the macOS dock appearance and behavior
   #   
-  #   dock = {
+    dock = {
   #     # Automatically hide and show the dock
   #     autohide = true;
   #     
@@ -163,14 +155,15 @@
   #     
   #     # Enable spring loading for all dock items
   #     enable-spring-load-actions-on-all-items = true;
-  #   };
-  #   
+
+    };
+
   #   # ---------------------------------------------------------------------------
   #   # Finder Settings
   #   # ---------------------------------------------------------------------------
   #   # Configure Finder behavior and appearance
   #   
-  #   finder = {
+    finder = {
   #     # Show all file extensions
   #     AppleShowAllExtensions = true;
   #     
@@ -185,23 +178,23 @@
   #     
   #     # Default Finder view: "icnv" (icon), "list" (list), "clmv" (column), "Flwv" (gallery)
   #     FXPreferredViewStyle = "list";
-  #     
-  #     # Search scope: "SCcf" (current folder), "SCsp" (previous scope), "SCev" (entire volume)
-  #     FXDefaultSearchScope = "SCcf";
-  #     
+
+    # Search scope: "SCcf" (current folder), "SCsp" (previous scope), "SCev" (entire volume)
+      FXDefaultSearchScope = "SCcf";
+
   #     # Warning before changing file extension
   #     FXEnableExtensionChangeWarning = false;
   #     
   #     # Warning before emptying trash
   #     WarnOnEmptyTrash = true;
-  #   };
-  #   
+    };
+
   #   # ---------------------------------------------------------------------------
   #   # Global macOS Settings
   #   # ---------------------------------------------------------------------------
   #   # System-wide preferences that affect all applications
   #   
-  #   NSGlobalDomain = {
+    NSGlobalDomain = {
   #     # Enable full keyboard access (tab through all controls)
   #     AppleKeyboardUIMode = 3;
   #     
@@ -231,13 +224,13 @@
   #     NSAutomaticCapitalizationEnabled = false;
   #     NSAutomaticPeriodSubstitutionEnabled = false;
   #     NSAutomaticQuoteSubstitutionEnabled = false;
-  #   };
+    };
   #   
   #   # ---------------------------------------------------------------------------
   #   # Screenshots
   #   # ---------------------------------------------------------------------------
   #   
-  #   screencapture = {
+    screencapture = {
   #     # Location where screenshots are saved
   #     location = "~/Desktop";
   #     
@@ -246,13 +239,13 @@
   #     
   #     # Disable shadow in screenshots
   #     disable-shadow = false;
-  #   };
+    };
   #   
   #   # ---------------------------------------------------------------------------
   #   # Trackpad Settings
   #   # ---------------------------------------------------------------------------
   #   
-  #   trackpad = {
+    trackpad = {
   #     # Enable tap to click
   #     Clicking = true;
   #     
@@ -261,8 +254,9 @@
   #     
   #     # Three finger drag
   #     TrackpadThreeFingerDrag = true;
-  #   };
-  # };
+    };
+
+  };
   
   # ===========================================================================
   # Optional: System Services
@@ -270,7 +264,7 @@
   # 
   # Enable additional system services or daemons
   
-  # services = {
+  services = {
   #   # Enable the locate database for fast file searching with `locate` command
   #   locate = {
   #     enable = true;
@@ -283,7 +277,7 @@
   #     interval = "weekly";
   #     options = "--delete-older-than 30d";
   #   };
-  # };
+  };
   
   # ===========================================================================
   # Optional: Environment Variables
@@ -291,13 +285,13 @@
   # 
   # Set system-wide environment variables
   
-  # environment.variables = {
+  environment.variables = {
   #   # Example: Set default editor
   #   EDITOR = "nvim";
   #   
   #   # Example: Custom paths
   #   MY_CUSTOM_PATH = "/opt/custom/bin";
-  # };
+  };
   
   # ===========================================================================
   # Optional: System Packages
@@ -312,6 +306,7 @@
   #   findutils
   #   gnugrep
   # ];
+
 }
 
 # =============================================================================
@@ -350,3 +345,5 @@
 # - nix-darwin options: https://daiderd.com/nix-darwin/manual/index.html
 # - macOS defaults: https://macos-defaults.com/
 # - Font packages: https://search.nixos.org/packages?query=font
+#
+# =============================================================================
