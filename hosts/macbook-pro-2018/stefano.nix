@@ -13,6 +13,7 @@
 { pkgs, lib, config, ... }:
 
 let
+
   # ===========================================================================
   # Convenience Variables
   # ===========================================================================
@@ -26,6 +27,7 @@ let
   cacheHome = config.xdg.cacheHome;   # typically "$HOME/.cache"
 
 in
+
 {
   # ===========================================================================
   # Basic Home Configuration
@@ -38,7 +40,7 @@ in
     
     # Home Manager state version
     # IMPORTANT: Do NOT change this after initial setup!
-    # This ensures compatibility with your existing Home Manager state
+    # This ensures compatibility with my existing Home Manager state
     stateVersion = "25.05";
     
     # The stateVersion determines which Home Manager release your config
@@ -58,7 +60,7 @@ in
   xdg = {
     enable = true;
     
-    # You can also configure specific XDG directories if needed:
+    # We can also configure specific XDG directories if needed:
     # configHome = "${config.home.homeDirectory}/.config";
     # dataHome = "${config.home.homeDirectory}/.local/share";
     # cacheHome = "${config.home.homeDirectory}/.cache";
@@ -99,7 +101,7 @@ in
     # ---------------------------------------------------------------------------
     # Git - Version control
     # ---------------------------------------------------------------------------
-    # Uncomment and configure if you want Home Manager to manage git config
+    # Uncomment and configure if we want Home Manager to manage git config
     
     # git = {
     #   enable = true;
@@ -123,18 +125,18 @@ in
     # ---------------------------------------------------------------------------
     # Shell configuration
     # ---------------------------------------------------------------------------
-    # Configure your preferred shell (bash, zsh, fish)
+    # Configure our preferred shell (bash, zsh, fish)
     
-    # zsh = {
-    #   enable = true;
+    zsh = {
+      enable = true;
     #   
     #   # Shell aliases
     #   shellAliases = {
     #     ll = "ls -l";
     #     la = "ls -la";
     #     ".." = "cd ..";
-    #   };
-    #   
+    };
+
     #   # Oh My Zsh integration
     #   oh-my-zsh = {
     #     enable = true;
@@ -142,13 +144,14 @@ in
     #     plugins = [ "git" "macos" "docker" ];
     #   };
     # };
+
   };
 
   # ===========================================================================
   # Home Activation Scripts
   # ===========================================================================
   # 
-  # These scripts run when Home Manager activates your configuration.
+  # These scripts run when Home Manager activates our configuration.
   # They're useful for one-time setup tasks or creating initial config files.
   
   home.activation = {
@@ -211,19 +214,19 @@ in
   # 
   # User-specific environment variables
   
-  # home.sessionVariables = {
+  home.sessionVariables = {
   #   EDITOR = "vim";
   #   BROWSER = "firefox";
   #   PAGER = "less";
-  # };
+  };
 
   # ===========================================================================
   # File Management
   # ===========================================================================
   # 
-  # Home Manager can manage your dotfiles by creating symlinks
+  # Home Manager can manage dotfiles by creating symlinks
   
-  # home.file = {
+  home.file = {
   #   # Example: Create a custom config file
   #   ".custom-app-rc".text = ''
   #     # Custom app configuration
@@ -233,7 +236,7 @@ in
   #   
   #   # Example: Copy a file from the nix store
   #   ".config/app/config.json".source = ./configs/app-config.json;
-  # };
+  };
 
   # ===========================================================================
   # macOS-Specific Settings
@@ -241,13 +244,18 @@ in
   # 
   # Configure macOS-specific options for this user
   
-  # targets.darwin = {
+  targets.darwin = {
   #   # User-level macOS defaults
-  #   defaults = {
-  #     "com.apple.finder" = {
-  #       ShowPathbar = true;
-  #       ShowStatusBar = true;
-  #     };
-  #   };
-  # };
+
+    defaults = {
+
+      "com.apple.finder" = {
+        ShowPathbar = true;
+        ShowStatusBar = true;
+      };
+
+    };
+
+  };
+
 }

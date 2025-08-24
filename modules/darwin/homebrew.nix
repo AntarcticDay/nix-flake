@@ -6,23 +6,7 @@
 # This module provides the default configuration for Homebrew integration
 # with nix-darwin. It sets sensible defaults that can be overridden by
 # individual host configurations.
-#
-# What is Homebrew?
-# - The popular package manager for macOS
-# - Installs GUI applications (casks), CLI tools (brews), and App Store apps
-# - Managed declaratively through nix-darwin instead of manually
-#
-# How it works with nix-darwin:
-# 1. This file sets default behaviors
-# 2. Host configs (hosts/*/homebrew.nix) specify what to install
-# 3. nix-darwin generates a Brewfile and runs `brew bundle`
-# 4. Homebrew installs/updates/removes packages to match your config
-#
-# Benefits of declarative Homebrew:
-# - Reproducible system setup
-# - Version control for installed apps
-# - Automatic cleanup of unused apps
-# - Integration with Nix configuration
+# 
 # =============================================================================
 
 { inputs, lib, config, ... }:
@@ -204,3 +188,6 @@
 # - Homebrew Bundle: https://github.com/Homebrew/homebrew-bundle
 # - nix-darwin Homebrew: https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
 # - Finding App Store IDs: https://github.com/mas-cli/mas
+# 
+# =============================================================================
+

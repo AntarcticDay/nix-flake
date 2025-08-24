@@ -15,6 +15,7 @@
 
 let
 
+  # I'm keeping big lists in separate files so this file stays readable.
   cask_list  = import ./cask-list.nix;
   mas_list = import ./mas-list.nix;
 
@@ -65,7 +66,7 @@ in
     # Activation Behavior
     # ---------------------------------------------------------------------------
     # 
-    # These settings control what happens when you run `darwin-rebuild switch`.
+    # These settings control what happens when we run `darwin-rebuild switch`.
     # The defaults from modules/darwin/homebrew.nix can be overridden here.
     
     onActivation = {
@@ -88,10 +89,9 @@ in
     # These complement packages from Nix with macOS-specific tools.
     
     brews = [
-      # Shell utilities
+
       "watch"        # Execute a program periodically and show output
-      
-      # Development dependencies
+
       "ncurses"      # Terminal control library (dependency for some tools)
       "node"         # Node.js JavaScript runtime (includes npm)
       
@@ -104,7 +104,6 @@ in
     # ===========================================================================
     # 
     # Desktop applications installed to /Applications.
-    # Organized by category for easier navigation.
     
     casks = cask_list;
 
@@ -143,7 +142,4 @@ in
 # - If mas fails: ensure you're signed into the App Store
 # - Run `brew doctor` to diagnose Homebrew issues
 #
-# **Organization tips:**
-# - Keep packages alphabetically sorted within categories
-# - Comment out packages you might want later instead of deleting
-# - Add comments for packages with special requirements
+# =============================================================================

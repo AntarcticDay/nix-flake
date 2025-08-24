@@ -131,7 +131,7 @@
   # The outputs function receives all inputs as arguments
   
   outputs = inputs@{ 
-    self,               # This flake itself
+    self,              # This flake itself
     nixpkgs,           # Our default nixpkgs
     nixpkgs-stable,    # Stable channel
     nixpkgs-unstable,  # Unstable channel
@@ -155,7 +155,7 @@
       
       # Extract commonly used functions for convenience
       inherit (lib) forAllSystems mkPkgs;
-
+      
       # -----------------------------------------------------------------------
       # Per-System Outputs Builder
       # -----------------------------------------------------------------------

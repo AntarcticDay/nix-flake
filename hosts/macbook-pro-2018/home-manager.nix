@@ -20,7 +20,7 @@
   
   users.users.stefano = {
     # User's login name
-    # This is what you use to log in and what appears in terminal prompts
+    # This is what he use to log in and what appears in terminal prompts
     name = "stefano";
     
     # User's home directory path
@@ -50,37 +50,45 @@
     # User-specific Home Manager configuration
     # Each user gets their own Home Manager configuration file
     users.stefano = import ./stefano.nix;
-    
-    # Additional options available:
-    # 
+  
     # backupFileExtension = "backup";
     # # Extension for backed up files when Home Manager replaces existing files
-    # 
-    # verbose = false;
-    # # Enable verbose output during Home Manager activation
-    # 
-    # extraSpecialArgs = { };
+  
+    verbose = true;
+    # Enable verbose output during Home Manager activation
+  
+    extraSpecialArgs = { };
     # # Extra arguments passed to all Home Manager modules
   };
 
-  # ===========================================================================
-  # Notes on Home Manager Integration
-  # ===========================================================================
-  # 
-  # Home Manager can manage:
-  # - User packages (installed to ~/.nix-profile)
-  # - Dotfiles (symlinked from the Nix store)
-  # - User services (launchd agents on macOS)
-  # - Shell configuration (bash, zsh, fish)
-  # - Application settings
-  # 
-  # The actual user configuration is in ./stefano.nix
-  # 
-  # To apply changes:
-  # $ darwin-rebuild switch --flake .#macbook-pro-2018
-  # 
-  # This will:
-  # 1. Build the Darwin system configuration
-  # 2. Activate system-wide changes
-  # 3. Run Home Manager to configure the user environment
 }
+
+# ===========================================================================
+# Notes on Home Manager Integration
+# ===========================================================================
+# 
+# Home Manager can manage:
+# - User packages (installed to ~/.nix-profile)
+# - Dotfiles (symlinked from the Nix store)
+# - User services (launchd agents on macOS)
+# - Shell configuration (bash, zsh, fish)
+# - Application settings
+# 
+# The actual user configuration is in ./stefano.nix
+# 
+# To apply changes:
+# $ darwin-rebuild switch --flake .#macbook-pro-2018
+# 
+# This will:
+# 1. Build the Darwin system configuration
+# 2. Activate system-wide changes
+# 3. Run Home Manager to configure the user environment
+# 
+# =============================================================================
+# References
+# =============================================================================
+# 
+# - Home Manager manual: https://nix-community.github.io/home-manager/
+# - nix-darwin manual: https://daiderd.com/nix-darwin/manual/
+#
+# =============================================================================

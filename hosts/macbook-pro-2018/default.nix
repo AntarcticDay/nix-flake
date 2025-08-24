@@ -44,7 +44,7 @@
     computerName = "MacBook Pro 2018 di Stefano";
     
     # Local hostname for Bonjour/mDNS (defaults to hostName if not set)
-    # localHostName = "macbook-pro-2018";
+    localHostName = "macbook-pro-2018";
   };
 
   # ===========================================================================
@@ -77,27 +77,29 @@
   # Uncomment and modify these to manage macOS settings declaratively
   # Reference: https://daiderd.com/nix-darwin/manual/index.html#opt-system.defaults
   
-  # system.defaults = {
+  system.defaults = {
+  
   #   # Dock preferences
-  #   dock = {
+    dock = {
   #     autohide = true;
   #     show-recents = false;
   #     tilesize = 48;
-  #   };
-  #   
+    };
+  
   #   # Finder preferences
-  #   finder = {
+    finder = {
   #     AppleShowAllExtensions = true;
   #     ShowPathbar = true;
   #     ShowStatusBar = true;
-  #   };
-  #   
+    };
+  
   #   # Global macOS preferences
-  #   NSGlobalDomain = {
+    NSGlobalDomain = {
   #     AppleKeyboardUIMode = 3;  # Full keyboard access
   #     ApplePressAndHoldEnabled = false;  # Key repeat
-  #   };
-  # };
+    };
+  
+  };
 
   # ===========================================================================
   # Services

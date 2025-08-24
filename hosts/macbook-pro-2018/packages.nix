@@ -13,19 +13,9 @@ let
   # Import package collections from our shared definitions
   # This allows us to reuse common package sets across different hosts
   collections = import ../../packages/collections.nix { inherit pkgs; };
-  
-  # ===========================================================================
-  # Package Channel Selection
-  # ===========================================================================
-  # 
-  # We have access to multiple package channels:
-  # - pkgs (default, follows unstable)
-  # - pkgs.stable (stable channel via FlakeHub)
-  # - pkgs.unstable (latest unstable channel)
-  # 
-  # Use stable for production tools, unstable for cutting-edge software
-  
+
 in
+
 {
   # ===========================================================================
   # System Packages Configuration
@@ -35,21 +25,19 @@ in
   # and available in the PATH for all users
   
   environment.systemPackages = 
-    # Start with the base collection (essential tools)
+
+    # Base collection (essential tools)
     collections.base
     
-    # Add packages from the stable channel
+    # Packages from the stable channel
     # Format: ++ (with pkgs.stable; [ package1 package2 ])
     ++ (with pkgs.stable; [
-
-      # Gaming
       # taisei           # Open-source Touhou Project clone
-
     ])
     
-    # Add packages from the default channel (unstable)
-    # These packages might have newer features but could be less stable
-    ++ (with pkgs; [
+    # Packages from the default channel (unstable)
+    # Format: ++ (with pkgs.unstable; [ package1 package2 ])
+    ++ (with pkgs.unstable; [
 
       # System information
       neofetch         # System info display tool
@@ -71,12 +59,7 @@ in
   # 
   # To test a package without installing:
   # $ nix run nixpkgs#<package-name>
-  # 
-  # Package sources:
-  # - collections.base: Defined in ../../packages/collections.nix
-  # - pkgs.stable: Stable NixOS channel (reliable, tested)
-  # - pkgs: Unstable channel (latest versions)
-  
+
   # ===========================================================================
   # Optional: Package-specific Configuration
   # ===========================================================================
@@ -91,4 +74,14 @@ in
   
   # Configure package-specific environment variables
   # environment.variables.PACKAGE_CONFIG = "value";
+
 }
+
+  # =============================================================================
+  # References
+  # =============================================================================
+  # 
+  # - nixpkgs manual: https://nixos.org/manual/nixpkgs/
+  # - nix command: https://nixos.org/manual/nix/
+  #
+  # =============================================================================
