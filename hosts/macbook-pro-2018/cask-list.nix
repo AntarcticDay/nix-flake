@@ -104,6 +104,9 @@
       # GitHub Desktop
       "github"               # Desktop client for GitHub repositories
 
+      #  GitUp
+      "gitup-app"            # Git interface focused on visual interaction
+
       # Terminal emulators
       "ghostty"              # Modern terminal by Mitchell Hashimoto
       
