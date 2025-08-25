@@ -155,30 +155,7 @@ in
   # They're useful for one-time setup tasks or creating initial config files.
   
   home.activation = {
-    # ---------------------------------------------------------------------------
-    # SillyTavern Configuration Setup
-    # ---------------------------------------------------------------------------
-    # 
-    # Copy the default SillyTavern config if it doesn't exist yet
-    # This preserves user modifications while providing a good starting point
-    
-    copySillyTavernConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      # Path to the SillyTavern config file
-      dst="${cfgHome}/sillytavern/config.yaml"
-      
-      # Only create if it doesn't exist (preserve user changes)
-      if [ ! -f "$dst" ]; then
-        echo "🌱  Installing initial SillyTavern config → $dst"
-        
-        # Create the directory if needed
-        mkdir -p "$(dirname "$dst")"
-        
-        # Copy the default config from the package
-        cp ${pkgs.sillytavern}/opt/sillytavern/default/config.yaml "$dst"
-      fi
-    '';
-    
-    # Example: Create other initial configurations
+    # Example: Create initial configurations
     # setupCustomTool = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     #   if [ ! -d "${cfgHome}/my-tool" ]; then
     #     echo "Setting up my-tool configuration..."
