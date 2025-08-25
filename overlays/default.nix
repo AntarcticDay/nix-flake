@@ -34,8 +34,8 @@ let
     inherit pkgsStableRaw pkgsUnstableRaw; 
   };
   
-  # SillyTavern overlay: Wraps the package to use XDG directories
-  sillytavernOverlay = import ./sillytavern.nix;
+  # SillyTavern overlay
+  # sillytavernOverlay = import ./sillytavern.nix;
   
   # ===========================================================================
   # Future Overlay Examples (commented out)
@@ -61,14 +61,13 @@ in
 [
   # 1. Channels overlay (first)
   #    Must be first so other overlays can use pkgs.stable/unstable
+
   channelsOverlay
   
-  # 2. Package modifications
-  #    Modify existing packages from nixpkgs
-  sillytavernOverlay
-  
-  # 3. Additional overlays
+  # 2. Additional overlays
   #    Add them in logical order based on dependencies
+
+  # sillytavernOverlay
 
 ]
 
