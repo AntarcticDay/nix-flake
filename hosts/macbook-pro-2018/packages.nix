@@ -42,7 +42,7 @@ in
       # System information
       fastfetch        # Fast system info (works on macOS)
       # neofetch       # System info display tool (commented - incompatible with macOS)
-      
+
       # AI/Chat applications
       # sillytavern      # AI chat interface (with our custom overlay)
 

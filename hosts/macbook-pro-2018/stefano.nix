@@ -80,7 +80,7 @@ in
     # perfect for project-specific development environments
     
     direnv = {
-      enable = true;
+      enable = false;
       
       # Integration with Nix for flake-based projects
       # This allows 'use flake' in .envrc files
