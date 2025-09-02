@@ -59,7 +59,7 @@ let
 
     [security]
     ; Set to false for first-time install, then change to true and rebuild.
-    INSTALL_LOCK = false
+    INSTALL_LOCK = true
   '';
 in
 {
