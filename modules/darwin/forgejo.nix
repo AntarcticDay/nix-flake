@@ -23,20 +23,22 @@ let
     ; -----------------------------------------------------------------------------
 
     [server]
+
+    ; --- HTTP listen ------------------------------------------------------------
     PROTOCOL   = http
     HTTP_ADDR  = 127.0.0.1
     HTTP_PORT  = 3000
     DOMAIN     = localhost
     ROOT_URL   = http://localhost:3000/
-    DISABLE_SSH = true  ; set false if you want the built-in SSH (pick a non-22 port on macOS)
 
-    [server]
+    ; --- Built-in SSH server (recommended for local use) ------------------------
     DISABLE_SSH = false
-    START_SSH_SERVER = true     ; enable the built-in SSH server
-    SSH_LISTEN_HOST = 127.0.0.1 ; o 0.0.0.0 per LAN
-    SSH_PORT = 2222             ; shown in clone URLs
-    SSH_LISTEN_PORT = 2222      ; actual listen port
-    SSH_DOMAIN = localhost      ; used in displayed SSH URLs
+    START_SSH_SERVER = true
+    SSH_LISTEN_HOST = 127.0.0.1       ; use 0.0.0.0 to expose on LAN
+    SSH_PORT = 2222                   ; shown in clone URLs
+    SSH_LISTEN_PORT = 2222            ; actual listen port
+    SSH_DOMAIN = localhost            ; used in displayed SSH URLs
+    BUILTIN_SSH_SERVER_USER = stefano
 
     [database]
     DB_TYPE = sqlite3
@@ -48,7 +50,8 @@ let
     ROOT_PATH = ${logDir}
 
     [security]
-    INSTALL_LOCK = true  ; will be set to true after the web installer
+    ; Set to false for first-time install, then change to true and rebuild.
+    INSTALL_LOCK = false
 
   '';
 in
@@ -68,11 +71,14 @@ in
     serviceConfig = {
       ProgramArguments = [
         "${programPath}"
-        "-w" "${dataDir}"            # explicit work path (data dir)
-        "-c" "/etc/forgejo/app.ini"  # explicit config path
-        "web"                        # start the web server
+        "web"                       # start the web server (subcommand first)
+        "-c" "/etc/forgejo/app.ini" # explicit config path
+        "-w" "${dataDir}"           # explicit work path (data dir)
       ];
-      EnvironmentVariables = { FORGEJO_WORK_DIR = dataDir; };
+      EnvironmentVariables = {
+        FORGEJO_WORK_DIR = dataDir;
+        PATH = "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin";
+      };
       UserName         = "${user}";
       WorkingDirectory = "${dataDir}";
       KeepAlive        = true;
