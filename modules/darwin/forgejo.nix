@@ -1,4 +1,3 @@
-
 # modules/darwin/forgejo.nix
 { config, lib, pkgs, ... }:
 
@@ -9,13 +8,19 @@ let
   logDir  = "${dataDir}/log";
   dbPath  = "${dataDir}/data/forgejo.db";
 
+  # --- Secrets (temporary inline; later move to agenix/sops) -------------------
+  # Generate fresh 64-hex strings with:  openssl rand -hex 32
+  internalToken = "08e91b0cefba94d3982c9720bc25a1869f4390dbb62ddb847258d2466a071a98";     # openssl rand -hex 32   # INTERNAL_TOKEN
+  secretKey     = "11a71f3607f9fcbd4ac32f011366504c538ee3cd28a2639637eb89b500abc3e2";     # openssl rand -hex 32   # SECRET_KEY
+  jwtSecret     = "9228ff9c9a399b4461b160135f09d15f62b354767271b2d57ab97a6f071fa1c0";     # openssl rand -hex 32   # JWT_SECRET
+
   # Homebrew binary path (Intel vs Apple Silicon)
   programPath =
     if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
     then "/opt/homebrew/bin/forgejo"
     else "/usr/local/bin/forgejo";
 
-  # ---- app.ini minimal config -------------------------------------------------
+  # ---- app.ini (managed by nix-darwin) ----------------------------------------
   appIni = ''
     ; -----------------------------------------------------------------------------
     ; Forgejo minimal config for macOS (managed by nix-darwin)
@@ -23,7 +28,6 @@ let
     ; -----------------------------------------------------------------------------
 
     [paths]
-    ; Where Forgejo stores app data (attachments, lfs, etc.)
     APP_DATA_PATH = ${dataDir}/data
 
     [server]
@@ -34,18 +38,15 @@ let
     DOMAIN     = localhost
     ROOT_URL   = http://localhost:3000/
 
-    ; --- Built-in SSH server (recommended for local use) ------------------------
+    ; --- Built-in SSH server ----------------------------------------------------
     DISABLE_SSH = false
     START_SSH_SERVER = true
-    SSH_LISTEN_HOST = 127.0.0.1       ; use 0.0.0.0 to expose on LAN
-    SSH_PORT = 2222                   ; shown in clone URLs
-    SSH_LISTEN_PORT = 2222            ; actual listen port
-    SSH_DOMAIN = localhost            ; used in displayed SSH URLs
+    SSH_LISTEN_HOST = 127.0.0.1
+    SSH_PORT = 2222
+    SSH_LISTEN_PORT = 2222
+    SSH_DOMAIN = localhost
     BUILTIN_SSH_SERVER_USER = stefano
-
-    ; Store SSH host keys under ${dataDir}/ssh (not in ~/.ssh)
     SSH_ROOT_PATH = ${dataDir}/ssh
-    ; List of host key files (relative to SSH_ROOT_PATH). If absent, Forgejo creates them.
     SSH_SERVER_HOST_KEYS = forgejo.ed25519, forgejo.rsa
 
     [database]
@@ -57,9 +58,13 @@ let
     LEVEL     = info
     ROOT_PATH = ${logDir}
 
+    [oauth2]
+    JWT_SECRET = ${jwtSecret}
+
     [security]
-    ; Set to false for first-time install, then change to true and rebuild.
-    INSTALL_LOCK = true
+    INSTALL_LOCK   = true
+    INTERNAL_TOKEN = ${internalToken}
+    SECRET_KEY     = ${secretKey}
   '';
 in
 {
@@ -69,19 +74,16 @@ in
     set -eu
     umask 027
 
-    # Base dirs with correct ownership/permissions
     /usr/bin/install -d -m 0750 -o ${user} -g staff ${dataDir}
     /usr/bin/install -d -m 0750 -o ${user} -g staff ${dataDir}/data
     /usr/bin/install -d -m 0750 -o ${user} -g staff ${logDir}
     /usr/bin/install -d -m 0700 -o ${user} -g staff ${dataDir}/ssh
 
-    # Ensure log files exist so launchd can open them on first start
     : > ${logDir}/forgejo.out.log
     : > ${logDir}/forgejo.err.log
     chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
     chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
 
-    # Pre-generate SSH host keys if missing (so the built-in SSH can start)
     if [ ! -f ${dataDir}/ssh/forgejo.ed25519 ]; then
       /usr/bin/ssh-keygen -t ed25519 -f ${dataDir}/ssh/forgejo.ed25519 -N ""
       chown ${user}:staff ${dataDir}/ssh/forgejo.ed25519 ${dataDir}/ssh/forgejo.ed25519.pub
@@ -96,17 +98,17 @@ in
     fi
   '';
 
-  # Write /etc/forgejo/app.ini with the minimal config
+  # Write /etc/forgejo/app.ini (distribution-style path)
   environment.etc."forgejo/app.ini".text = appIni;
 
-  # LaunchDaemon: run Forgejo at boot, as non-root user, with explicit work-path/config
+  # LaunchDaemon: Forgejo web
   launchd.daemons.forgejo = {
     serviceConfig = {
       ProgramArguments = [
         "${programPath}"
-        "web"                       # start the web server (subcommand first)
-        "-c" "/etc/forgejo/app.ini" # explicit config path
-        "-w" "${dataDir}"           # explicit work path (data dir)
+        "web"
+        "-c" "/etc/forgejo/app.ini"
+        "-w" "${dataDir}"
       ];
       EnvironmentVariables = {
         FORGEJO_WORK_DIR = dataDir;
