@@ -101,6 +101,9 @@ in
       #  Ungit
       "ungit"                # Easiest way to use Git. On any platform. Anywhere
 
+      #  forgejo
+      "forgejo"                # Self-hosted lightweight software forge
+
       #  fastfetch
       "fastfetch"            # Like neofetch, but much faster because written mostly in C
 
