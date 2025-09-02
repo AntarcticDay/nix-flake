@@ -22,6 +22,10 @@ let
     ; Docs: https://forgejo.org/docs/latest/admin/config-cheat-sheet/
     ; -----------------------------------------------------------------------------
 
+    [paths]
+    ; Where Forgejo stores app data (attachments, lfs, etc.)
+    APP_DATA_PATH = ${dataDir}/data
+
     [server]
     ; --- HTTP listen ------------------------------------------------------------
     PROTOCOL   = http
@@ -39,6 +43,11 @@ let
     SSH_DOMAIN = localhost            ; used in displayed SSH URLs
     BUILTIN_SSH_SERVER_USER = stefano
 
+    ; Store SSH host keys under ${dataDir}/ssh (not in ~/.ssh)
+    SSH_ROOT_PATH = ${dataDir}/ssh
+    ; List of host key files (relative to SSH_ROOT_PATH). If absent, Forgejo creates them.
+    SSH_SERVER_HOST_KEYS = forgejo.ed25519, forgejo.rsa
+
     [database]
     DB_TYPE = sqlite3
     PATH    = ${dbPath}
@@ -54,26 +63,40 @@ let
   '';
 in
 {
-  # Create data/log dirs and empty log files *before* launchd starts the daemon
-system.activationScripts.forgejo.text = lib.mkBefore ''
-  # Ensure data and log directories exist (launchd needs them before starting)
-  set -eu
-  umask 027
+  # --- Create data/log/ssh dirs and log files BEFORE launchd starts the daemon
+  # Also pre-generate SSH host keys if they don't exist (ed25519 + rsa 4096).
+  system.activationScripts.preActivation.text = lib.mkAfter ''
+    set -eu
+    umask 027
 
-  for d in ${dataDir} ${dataDir}/data ${logDir}; do
-    if [ ! -d "$d" ]; then
-      /usr/bin/install -d -m 0750 -o ${user} -g staff "$d"
+    # Base dirs with correct ownership/permissions
+    /usr/bin/install -d -m 0750 -o ${user} -g staff ${dataDir}
+    /usr/bin/install -d -m 0750 -o ${user} -g staff ${dataDir}/data
+    /usr/bin/install -d -m 0750 -o ${user} -g staff ${logDir}
+    /usr/bin/install -d -m 0700 -o ${user} -g staff ${dataDir}/ssh
+
+    # Ensure log files exist so launchd can open them on first start
+    : > ${logDir}/forgejo.out.log
+    : > ${logDir}/forgejo.err.log
+    chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
+    chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
+
+    # Pre-generate SSH host keys if missing (so the built-in SSH can start)
+    if [ ! -f ${dataDir}/ssh/forgejo.ed25519 ]; then
+      /usr/bin/ssh-keygen -t ed25519 -f ${dataDir}/ssh/forgejo.ed25519 -N ""
+      chown ${user}:staff ${dataDir}/ssh/forgejo.ed25519 ${dataDir}/ssh/forgejo.ed25519.pub
+      chmod 0600 ${dataDir}/ssh/forgejo.ed25519
+      chmod 0644 ${dataDir}/ssh/forgejo.ed25519.pub
     fi
-  done
+    if [ ! -f ${dataDir}/ssh/forgejo.rsa ]; then
+      /usr/bin/ssh-keygen -t rsa -b 4096 -f ${dataDir}/ssh/forgejo.rsa -N ""
+      chown ${user}:staff ${dataDir}/ssh/forgejo.rsa ${dataDir}/ssh/forgejo.rsa.pub
+      chmod 0600 ${dataDir}/ssh/forgejo.rsa
+      chmod 0644 ${dataDir}/ssh/forgejo.rsa.pub
+    fi
+  '';
 
-  # Ensure log files exist and are writable by the service user
-  : > ${logDir}/forgejo.out.log
-  : > ${logDir}/forgejo.err.log
-  chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
-  chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
-'';
-
-  # Write /etc/forgejo/app.ini with the minimal config (distribution-style path)
+  # Write /etc/forgejo/app.ini with the minimal config
   environment.etc."forgejo/app.ini".text = appIni;
 
   # LaunchDaemon: run Forgejo at boot, as non-root user, with explicit work-path/config
