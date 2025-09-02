@@ -28,6 +28,10 @@
     ./packages.nix              # Software packages to install
     ./homebrew.nix              # macOS apps via Homebrew
     ./home-manager.nix          # User environment setup
+
+    # Forgejo (macOS)
+    ../../modules/darwin/forgejo.nix
+
   ];
 
   # ===========================================================================
