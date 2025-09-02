@@ -55,18 +55,23 @@ let
 in
 {
   # Create data/log dirs and empty log files *before* launchd starts the daemon
-  system.activationScripts.forgejo = lib.mkBefore ''
-    # Directories with correct ownership/permissions
-    install -d -m 0750 -o ${user} -g staff ${dataDir}
-    install -d -m 0750 -o ${user} -g staff ${dataDir}/data
-    install -d -m 0750 -o ${user} -g staff ${logDir}
+system.activationScripts.forgejo.text = lib.mkBefore ''
+  # Ensure data and log directories exist (launchd needs them before starting)
+  set -eu
+  umask 027
 
-    # Ensure log files exist so launchd can open them
-    : > ${logDir}/forgejo.out.log
-    : > ${logDir}/forgejo.err.log
-    chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
-    chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
-  '';
+  for d in ${dataDir} ${dataDir}/data ${logDir}; do
+    if [ ! -d "$d" ]; then
+      /usr/bin/install -d -m 0750 -o ${user} -g staff "$d"
+    fi
+  done
+
+  # Ensure log files exist and are writable by the service user
+  : > ${logDir}/forgejo.out.log
+  : > ${logDir}/forgejo.err.log
+  chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
+  chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
+'';
 
   # Write /etc/forgejo/app.ini with the minimal config (distribution-style path)
   environment.etc."forgejo/app.ini".text = appIni;
