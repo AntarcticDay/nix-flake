@@ -97,6 +97,13 @@ in
       
       # Media tools (commented out - uncomment if needed)
       # "yt-dlp"     # Download videos from YouTube and other sites
+
+      #  Ungit
+      "ungit"                # Easiest way to use Git. On any platform. Anywhere
+
+      #  fastfetch
+      "fastfetch"            # Like neofetch, but much faster because written mostly in C
+
     ];
 
     # ===========================================================================
