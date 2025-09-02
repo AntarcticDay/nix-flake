@@ -23,7 +23,6 @@ let
     ; -----------------------------------------------------------------------------
 
     [server]
-
     ; --- HTTP listen ------------------------------------------------------------
     PROTOCOL   = http
     HTTP_ADDR  = 127.0.0.1
@@ -52,18 +51,24 @@ let
     [security]
     ; Set to false for first-time install, then change to true and rebuild.
     INSTALL_LOCK = false
-
   '';
 in
 {
-  # Create data/log folders and set ownership/permissions
-  system.activationScripts.forgejo = lib.mkAfter ''
-    mkdir -p ${dataDir}/data ${logDir}
-    chown -R ${user}:staff ${dataDir}
-    chmod -R 750 ${dataDir}
+  # Create data/log dirs and empty log files *before* launchd starts the daemon
+  system.activationScripts.forgejo = lib.mkBefore ''
+    # Directories with correct ownership/permissions
+    install -d -m 0750 -o ${user} -g staff ${dataDir}
+    install -d -m 0750 -o ${user} -g staff ${dataDir}/data
+    install -d -m 0750 -o ${user} -g staff ${logDir}
+
+    # Ensure log files exist so launchd can open them
+    : > ${logDir}/forgejo.out.log
+    : > ${logDir}/forgejo.err.log
+    chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
+    chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
   '';
 
-  # Write /etc/forgejo/app.ini with the minimal config
+  # Write /etc/forgejo/app.ini with the minimal config (distribution-style path)
   environment.etc."forgejo/app.ini".text = appIni;
 
   # LaunchDaemon: run Forgejo at boot, as non-root user, with explicit work-path/config
