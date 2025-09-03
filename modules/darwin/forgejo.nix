@@ -3,16 +3,13 @@
 
 let
   # ---- Settings you may tweak -------------------------------------------------
-  user    = "stefano";              # macOS user running Forgejo
-  dataDir = "/var/lib/forgejo";     # persistent data directory
-  logDir  = "${dataDir}/log";
-  dbPath  = "${dataDir}/data/forgejo.db";
-
-  # --- Secrets (temporary inline; later move to agenix/sops) -------------------
-  # Generate fresh 64-hex strings with:  openssl rand -hex 32
-  internalToken = "08e91b0cefba94d3982c9720bc25a1869f4390dbb62ddb847258d2466a071a98";     # openssl rand -hex 32   # INTERNAL_TOKEN
-  secretKey     = "11a71f3607f9fcbd4ac32f011366504c538ee3cd28a2639637eb89b500abc3e2";     # openssl rand -hex 32   # SECRET_KEY
-  jwtSecret     = "9228ff9c9a399b4461b160135f09d15f62b354767271b2d57ab97a6f071fa1c0";     # openssl rand -hex 32   # JWT_SECRET
+  user    = "stefano";                             # macOS user running Forgejo
+  homeDir = "/Users/${user}";
+  workDir = "${homeDir}/my/Forgejo";               # everything lives here
+  logDir  = "${workDir}/log";
+  dataDir = "${workDir}/data";
+  sshDir  = "${workDir}/ssh";
+  appIniPath = "${workDir}/app.ini";
 
   # Homebrew binary path (Intel vs Apple Silicon)
   programPath =
@@ -20,102 +17,105 @@ let
     then "/opt/homebrew/bin/forgejo"
     else "/usr/local/bin/forgejo";
 
-  # ---- app.ini (managed by nix-darwin) ----------------------------------------
-  appIni = ''
+  # Minimal bootstrap config copied on first activation only (writable by user).
+  # The install wizard will overwrite/add secrets here.
+  appIniBootstrap = pkgs.writeText "forgejo-bootstrap.ini" ''
     ; -----------------------------------------------------------------------------
-    ; Forgejo minimal config for macOS (managed by nix-darwin)
-    ; Docs: https://forgejo.org/docs/latest/admin/config-cheat-sheet/
+    ; Forgejo bootstrap config (user-space, managed by nix-darwin on first run)
+    ; This file is created ONLY if missing, then it is yours to edit.
     ; -----------------------------------------------------------------------------
 
     [paths]
-    APP_DATA_PATH = ${dataDir}/data
+    APP_DATA_PATH = ${dataDir}
 
     [server]
-    ; --- HTTP listen ------------------------------------------------------------
-    PROTOCOL   = http
-    HTTP_ADDR  = 127.0.0.1
-    HTTP_PORT  = 3000
-    DOMAIN     = localhost
-    ROOT_URL   = http://localhost:3000/
-
-    ; --- Built-in SSH server ----------------------------------------------------
-    DISABLE_SSH = false
-    START_SSH_SERVER = true
+    PROTOCOL        = http
+    HTTP_ADDR       = 127.0.0.1
+    HTTP_PORT       = 3000
+    DOMAIN          = localhost
+    ROOT_URL        = http://localhost:3000/
+    DISABLE_SSH     = false
+    START_SSH_SERVER= true
     SSH_LISTEN_HOST = 127.0.0.1
-    SSH_PORT = 2222
+    SSH_PORT        = 2222
     SSH_LISTEN_PORT = 2222
-    SSH_DOMAIN = localhost
-    BUILTIN_SSH_SERVER_USER = stefano
-    SSH_ROOT_PATH = ${dataDir}/ssh
+    SSH_DOMAIN      = localhost
+    BUILTIN_SSH_SERVER_USER = ${user}
+    SSH_ROOT_PATH   = ${sshDir}
     SSH_SERVER_HOST_KEYS = forgejo.ed25519, forgejo.rsa
 
     [database]
     DB_TYPE = sqlite3
-    PATH    = ${dbPath}
+    PATH    = ${dataDir}/forgejo.db
 
     [log]
     MODE      = file
     LEVEL     = info
     ROOT_PATH = ${logDir}
 
-    [oauth2]
-    JWT_SECRET = ${jwtSecret}
-
     [security]
-    INSTALL_LOCK   = true
-    INTERNAL_TOKEN = ${internalToken}
-    SECRET_KEY     = ${secretKey}
+    ; First run uses the install wizard (writable app.ini in your home).
+    INSTALL_LOCK = false
   '';
 in
 {
-  # --- Create data/log/ssh dirs and log files BEFORE launchd starts the daemon
-  # Also pre-generate SSH host keys if they don't exist (ed25519 + rsa 4096).
+  # --- Create user-space dirs/files BEFORE the daemon starts -------------------
+  # We DO NOT manage /etc/forgejo/app.ini anymore.
   system.activationScripts.preActivation.text = lib.mkAfter ''
     set -eu
     umask 027
 
+    /usr/bin/install -d -m 0750 -o ${user} -g staff ${workDir}
     /usr/bin/install -d -m 0750 -o ${user} -g staff ${dataDir}
-    /usr/bin/install -d -m 0750 -o ${user} -g staff ${dataDir}/data
     /usr/bin/install -d -m 0750 -o ${user} -g staff ${logDir}
-    /usr/bin/install -d -m 0700 -o ${user} -g staff ${dataDir}/ssh
+    /usr/bin/install -d -m 0700 -o ${user} -g staff ${sshDir}
 
+    # Create log files so launchd can open them on first start
     : > ${logDir}/forgejo.out.log
     : > ${logDir}/forgejo.err.log
     chown ${user}:staff ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
     chmod 0640 ${logDir}/forgejo.out.log ${logDir}/forgejo.err.log
 
-    if [ ! -f ${dataDir}/ssh/forgejo.ed25519 ]; then
-      /usr/bin/ssh-keygen -t ed25519 -f ${dataDir}/ssh/forgejo.ed25519 -N ""
-      chown ${user}:staff ${dataDir}/ssh/forgejo.ed25519 ${dataDir}/ssh/forgejo.ed25519.pub
-      chmod 0600 ${dataDir}/ssh/forgejo.ed25519
-      chmod 0644 ${dataDir}/ssh/forgejo.ed25519.pub
+    # First-run: create a writable app.ini only if missing
+    if [ ! -f ${appIniPath} ]; then
+      /bin/cp ${appIniBootstrap} ${appIniPath}
+      chown ${user}:staff ${appIniPath}
+      chmod 0640 ${appIniPath}
     fi
-    if [ ! -f ${dataDir}/ssh/forgejo.rsa ]; then
-      /usr/bin/ssh-keygen -t rsa -b 4096 -f ${dataDir}/ssh/forgejo.rsa -N ""
-      chown ${user}:staff ${dataDir}/ssh/forgejo.rsa ${dataDir}/ssh/forgejo.rsa.pub
-      chmod 0600 ${dataDir}/ssh/forgejo.rsa
-      chmod 0644 ${dataDir}/ssh/forgejo.rsa.pub
+
+    # Generate SSH host keys if missing (ed25519 + rsa 4096)
+    if [ ! -f ${sshDir}/forgejo.ed25519 ]; then
+      /usr/bin/ssh-keygen -t ed25519 -f ${sshDir}/forgejo.ed25519 -N ""
+      chown ${user}:staff ${sshDir}/forgejo.ed25519 ${sshDir}/forgejo.ed25519.pub
+      chmod 0600 ${sshDir}/forgejo.ed25519
+      chmod 0644 ${sshDir}/forgejo.ed25519.pub
+    fi
+    if [ ! -f ${sshDir}/forgejo.rsa ]; then
+      /usr/bin/ssh-keygen -t rsa -b 4096 -f ${sshDir}/forgejo.rsa -N ""
+      chown ${user}:staff ${sshDir}/forgejo.rsa ${sshDir}/forgejo.rsa.pub
+      chmod 0600 ${sshDir}/forgejo.rsa
+      chmod 0644 ${sshDir}/forgejo.rsa.pub
     fi
   '';
 
-  # Write /etc/forgejo/app.ini (distribution-style path)
-  environment.etc."forgejo/app.ini".text = appIni;
+  # --- No /etc file anymore! ---------------------------------------------------
+  # (Intentionally NOT setting environment.etc."forgejo/app.ini".)
 
-  # LaunchDaemon: Forgejo web
+  # --- LaunchDaemon (runs as your user, uses user-space paths) -----------------
   launchd.daemons.forgejo = {
     serviceConfig = {
       ProgramArguments = [
         "${programPath}"
-        "web"
-        "-c" "/etc/forgejo/app.ini"
-        "-w" "${dataDir}"
+        "web"                           # subcommand first
+        "-c" "${appIniPath}"            # config lives in your home
+        "-w" "${workDir}"               # work dir in your home
       ];
       EnvironmentVariables = {
-        FORGEJO_WORK_DIR = dataDir;
+        FORGEJO_WORK_DIR = workDir;
         PATH = "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin";
       };
       UserName         = "${user}";
-      WorkingDirectory = "${dataDir}";
+      WorkingDirectory = "${workDir}";
       KeepAlive        = true;
       RunAtLoad        = true;
       StandardOutPath  = "${logDir}/forgejo.out.log";
