@@ -169,7 +169,7 @@
         
         # Import our package collections
         # These are predefined sets of packages (base, development, etc.)
-        collections = import ./packages/collections.nix { 
+        collections = import ./pkgs/collections.nix {
           pkgs = env.pkgs; 
         };
       in {

@@ -12,7 +12,7 @@
 let
   # Import package collections from our shared definitions
   # This allows us to reuse common package sets across different hosts
-  collections = import ../../packages/collections.nix { inherit pkgs; };
+  collections = import ../../pkgs/collections.nix { inherit pkgs; };
 
 in
 
