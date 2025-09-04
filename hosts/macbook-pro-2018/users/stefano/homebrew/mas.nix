@@ -1,4 +1,4 @@
-# hosts/macbook-pro-2018/homebrew/mas-list.nix
+# hosts/macbook-pro-2018/users/stefano/homebrew/mas.nix
 # =============================================================================
 # Mac App Store apps
 # "Name" = numeric ID. We must be signed in to the App Store.

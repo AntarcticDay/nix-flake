@@ -1,4 +1,4 @@
-# hosts/macbook-pro-2018/homebrew/cask-list.nix
+# hosts/macbook-pro-2018/users/stefano/homebrew/cask.nix
 # =============================================================================
 # List of GUI apps (casks) for this host. Keep it alphabetized within sections.
 # =============================================================================
