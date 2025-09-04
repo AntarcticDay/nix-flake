@@ -161,10 +161,13 @@
   # Security Settings
   # ===========================================================================
   
-  # Enable Touch ID for sudo authentication (if available)
-  # This is a convenience feature for supported Macs
-  # Can be overridden per-host for Macs without Touch ID
-  security.pam.enableSudoTouchIdAuth = lib.mkDefault true;
+  # Enable Touch ID (and Apple Watch) for sudo via /etc/pam.d/sudo_local
+  security.pam.services.sudo_local = {
+    enable = true;        # explicitly manage /etc/pam.d/sudo_local with nix-darwin
+    touchIdAuth = true;   # enable Touch ID for sudo
+    # reattach = true;    # fix Touch ID inside tmux/screen (pam_reattach)
+    # watchIdAuth = true; # allow Apple Watch auth for sudo (optional)
+};
 
 }
 
