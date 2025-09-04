@@ -33,11 +33,16 @@
   # Order matters: more general modules should come before specific ones.
   
   imports = [
+
+    # Common cross-platform Nix settings
+    ../common/nix.nix
+    
     # System-level configuration (shells, fonts, system preferences)
     ./system.nix
     
     # Homebrew integration for installing macOS applications
     ./homebrew.nix
+  ];
     
     # Future modules could include:
     # ./security.nix     # FileVault, firewall, privacy settings
