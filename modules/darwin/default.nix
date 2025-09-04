@@ -1,4 +1,3 @@
-
 # modules/darwin/default.nix
 # =============================================================================
 # Darwin Modules Entry Point
@@ -9,11 +8,12 @@
 #
 # Purpose:
 # - Central import point for Darwin modules
-# - Configures base Nix settings for Determinate Nix compatibility
+# - Imports common cross-platform settings
 # - Ensures all Darwin modules are loaded in the correct order
 #
 # Module structure:
-# - This file: Imports all Darwin modules and sets base configuration
+# - This file: Imports all modules and sets Darwin-specific overrides
+# - ../common/nix.nix: Cross-platform Nix settings
 # - system.nix: Shell, fonts, and system-level settings
 # - homebrew.nix: Homebrew package manager integration
 #
@@ -29,12 +29,12 @@
   # Module Imports
   # ===========================================================================
   # 
-  # Import all Darwin-specific configuration modules.
+  # Import all necessary configuration modules.
   # Order matters: more general modules should come before specific ones.
   
   imports = [
-
     # Common cross-platform Nix settings
+    # This provides base Nix configuration that works on all platforms
     ../common/nix.nix
     
     # System-level configuration (shells, fonts, system preferences)
@@ -46,16 +46,15 @@
     # Future modules could include:
     # ./security.nix     # FileVault, firewall, privacy settings
     # ./networking.nix   # Network configuration, VPN settings
-    # ./services.nix     # LaunchAgents and LaunchDaemons
-
+    # ./launchd.nix      # LaunchAgents and LaunchDaemons management
   ];
 
   # ===========================================================================
-  # Base Nix Configuration
+  # Darwin-Specific Nix Configuration
   # ===========================================================================
   # 
   # IMPORTANT: We're using Determinate Nix, which manages its own Nix daemon
-  # and configuration. This section ensures compatibility.
+  # and configuration. We only override what's necessary for Darwin.
   
   nix = {
     # ---------------------------------------------------------------------------
@@ -81,73 +80,66 @@
     enable = false;
     
     # ---------------------------------------------------------------------------
-    # Experimental Features
+    # Darwin-Specific Settings
     # ---------------------------------------------------------------------------
     # 
-    # These features are already enabled by Determinate Nix, but we declare
-    # them here for documentation and clarity.
-    # 
-    # What these features provide:
-    # - "nix-command": New `nix` CLI with better UX (nix build, nix develop, etc.)
-    # - "flakes": Reproducible, declarative Nix projects with flake.nix
-    # 
-    # Even though Determinate Nix enables these, declaring them here:
-    # 1. Documents what features we rely on
-    # 2. Ensures compatibility if someone switches away from Determinate Nix
-    # 3. Makes our requirements explicit
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    # These settings are specific to macOS and override the common settings
+    # from ../common/nix.nix when necessary.
     
-    # ---------------------------------------------------------------------------
-    # Additional Nix Settings (Optional)
-    # ---------------------------------------------------------------------------
-    # 
-    # These settings would normally go here, but with Determinate Nix,
-    # they should be managed through Determinate's configuration.
-    # Shown here for reference only - uncomment with caution!
-    
-    # # Trusted users who can use advanced Nix features
-    # settings.trusted-users = [ "@admin" "stefano" ];
-    # 
-    # # Binary caches for faster package downloads
-    # settings.substituters = [
-    #   "https://cache.nixos.org"
-    #   "https://nix-community.cachix.org"
-    # ];
-    # 
-    # # Public keys for binary caches
-    # settings.trusted-public-keys = [
-    #   "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    #   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    # ];
-    # 
-    # # Build settings
-    # settings.max-jobs = "auto";  # Build jobs in parallel
-    # settings.cores = 0;          # Use all CPU cores
-    # 
-    # # Store optimization
-    # settings.auto-optimise-store = true;  # Deduplicate store files
+    settings = {
+      # macOS-specific sandbox configuration
+      # On Darwin, sandboxing requires specific entitlements
+      sandbox = lib.mkDefault "relaxed";  # More compatible with macOS
+      
+      # Use case-sensitive file system awareness
+      # macOS is typically case-insensitive, this helps Nix handle it correctly
+      case-hack = lib.mkDefault true;
+    };
   };
 
   # ===========================================================================
-  # Darwin-Specific Base Settings
+  # Darwin-Specific Environment
   # ===========================================================================
-  # 
-  # These settings are Darwin-specific and safe to set even with Determinate Nix
   
-  # Enable Touch ID for sudo (if available on the hardware)
-  # This is set per-host but shown here as an example
-  # security.pam.enableSudoTouchIdAuth = true;
-  
-  # System-wide environment variables
-  # These are available to all users and processes
-  environment.variables = {
-    # Ensure Nix tools are in the PATH
-    # Determinate Nix handles this, but being explicit doesn't hurt
-    NIX_PATH = lib.mkDefault "nixpkgs=flake:nixpkgs";
+  environment = {
+    # Override shell aliases for Darwin-specific commands
+    shellAliases = lib.mkForce {
+      # Darwin rebuild commands
+      nrb = "darwin-rebuild build --flake .#";
+      nrs = "darwin-rebuild switch --flake .#";
+      nrt = "darwin-rebuild test --flake .#";
+      nrc = "darwin-rebuild check --flake .#";
+      
+      # Nix flake shortcuts (inherited from common)
+      nfu = "nix flake update";
+      nfl = "nix flake lock";
+      nfs = "nix flake show";
+      nfc = "nix flake check";
+      
+      # Garbage collection
+      ngc = "nix-collect-garbage";
+      ngcd = "nix-collect-garbage -d";
+      
+      # Store management
+      nso = "nix store optimise";
+      nsr = "nix store repair --verify";
+      
+      # Development
+      ndev = "nix develop";
+      nshell = "nix shell";
+      nrun = "nix run";
+      
+      # Search and info
+      nsearch = "nix search nixpkgs";
+      ninfo = "nix-env -qa --description";
+    };
     
-    # You can add other global variables here
-    # ORGANIZATION = "My Company";
-    # DEFAULT_BROWSER = "firefox";
+    # Darwin-specific environment variables
+    variables = {
+      # Ensure Nix tools are in the PATH
+      # Determinate Nix handles this, but being explicit doesn't hurt
+      NIX_PATH = lib.mkDefault "nixpkgs=flake:nixpkgs";
+    };
   };
 
   # ===========================================================================
@@ -165,77 +157,30 @@
     # Additional programs are configured in system.nix
   };
 
+  # ===========================================================================
+  # Security Settings
+  # ===========================================================================
+  
+  # Enable Touch ID for sudo authentication (if available)
+  # This is a convenience feature for supported Macs
+  # Can be overridden per-host for Macs without Touch ID
+  security.pam.enableSudoTouchIdAuth = lib.mkDefault true;
+
 }
 
 # =============================================================================
-# Understanding Determinate Nix vs Standard Nix
+# Notes on Module Organization
 # =============================================================================
 # 
-# **Standard Nix-Darwin Approach**:
-# - nix-darwin manages the Nix daemon
-# - Configuration through nix.* options
-# - Manual setup of experimental features
-# - User manages binary caches
+# This module is the entry point for Darwin-specific configuration.
+# It:
+# 1. Imports common cross-platform settings
+# 2. Imports other Darwin modules
+# 3. Provides Darwin-specific overrides
 # 
-# **Determinate Nix Approach**:
-# - Determinate installer manages the daemon
-# - Configuration through /etc/nix/nix.conf
-# - Automatic feature enablement
-# - Integrated FlakeHub caching
-# - Additional Determinate Nixd service
-# 
-# **Why This Matters**:
-# - Avoid conflicts by not managing what Determinate manages
-# - Let each tool do what it does best
-# - Determinate for Nix infrastructure, nix-darwin for system config
+# The separation allows us to:
+# - Share common config across platforms
+# - Keep Darwin-specific settings isolated
+# - Override common settings when needed for macOS
 #
-# =============================================================================
-# Adding New Modules
-# =============================================================================
-# 
-# To add a new Darwin module:
-# 
-# 1. Create a new file (e.g., `security.nix`)
-# 2. Add it to the imports list above
-# 3. Structure it like the existing modules:
-#    ```nix
-#    { pkgs, lib, config, ... }:
-#    {
-#      # Your configuration here
-#    }
-#    ```
-# 
-# Common module patterns:
-# - System services: services.* options
-# - Security settings: security.* options  
-# - Network config: networking.* options
-# - User management: users.* options
-#
-# =============================================================================
-# Troubleshooting
-# =============================================================================
-# 
-# **"Permission denied" errors**:
-# - Ensure you're in the admin group
-# - Check Determinate Nix is properly installed
-# - Run with sudo if needed: `sudo darwin-rebuild switch`
-# 
-# **"Conflicting definitions" errors**:
-# - Two modules defining the same option
-# - Use mkForce to override: `lib.mkForce value`
-# - Or use mkDefault for lower priority
-# 
-# **Changes not taking effect**:
-# - Some changes need logout/restart
-# - Check the option is actually used by Darwin
-# - Verify no typos in option names
-#
-# =============================================================================
-# References
-# =============================================================================
-# 
-# - Determinate Nix: https://docs.determinate.systems/determinate-nix/
-# - nix-darwin manual: https://daiderd.com/nix-darwin/manual/
-# - Nix pills (module system): https://nixos.org/guides/nix-pills/
-# 
 # =============================================================================

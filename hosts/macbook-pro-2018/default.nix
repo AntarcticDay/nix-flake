@@ -17,22 +17,19 @@
   # 1. System-wide modules (Darwin-specific and Home Manager)
   # 2. Host-specific configuration files
   
-  imports = [
+imports = [
     # System-wide modules
-    # These provide the base Darwin and Home Manager functionality
     ../../modules/darwin         # Darwin system configuration
     ../../modules/home-manager   # Home Manager integration
     
     # Host-specific configuration
-    # These files contain settings specific to this MacBook Pro
     ./packages.nix              # Software packages to install
     ./homebrew.nix              # macOS apps via Homebrew
     ./home-manager.nix          # User environment setup
 
-    # Forgejo (macOS)
-    ../../modules/darwin/forgejo.nix
-
-  ];
+    # Host services (nuova posizione!)
+    ./services/forgejo.nix      # Forgejo service configuration
+];
 
   # ===========================================================================
   # Host Identification
