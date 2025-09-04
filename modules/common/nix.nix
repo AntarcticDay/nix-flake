@@ -175,7 +175,7 @@
       
       # Editor for nix edit commands
       # Users can override this in their personal config
-      EDITOR = lib.mkDefault "vim";
+      # EDITOR = lib.mkDefault "vim";
     };
     
     # Shell aliases for common Nix operations
