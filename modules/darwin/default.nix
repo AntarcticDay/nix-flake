@@ -42,12 +42,12 @@
     
     # Homebrew integration for installing macOS applications
     ./homebrew.nix
-  ];
     
     # Future modules could include:
     # ./security.nix     # FileVault, firewall, privacy settings
     # ./networking.nix   # Network configuration, VPN settings
     # ./services.nix     # LaunchAgents and LaunchDaemons
+
   ];
 
   # ===========================================================================
