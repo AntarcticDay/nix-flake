@@ -43,7 +43,7 @@ in
     mutableTaps = true;
     
     # We don't specify taps here when using mutableTaps
-    # They will be managed by Homebrew itself below
+    # They will be managed by Homebrew itself
   };
 
   # ===========================================================================
@@ -53,16 +53,18 @@ in
   homebrew = {
     enable = true;
     
-    # Specify taps for Homebrew to manage
+    # No need to specify core and cask - they're included by default
+    # Only add third-party taps here if needed
     taps = [
-      "homebrew/core"
-      "homebrew/cask"
+      # Example of third-party taps:
+      # "homebrew/services"
+      # "homebrew/cask-versions"
     ];
     
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      cleanup = "none";  # Temporarily disabled for safety
+      cleanup = "zap";
     };
 
     # Combine system-wide and user-specific brews
