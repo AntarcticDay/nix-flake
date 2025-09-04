@@ -37,12 +37,13 @@ in
     enable = true;
     enableRosetta = false;
     user = "stefano";
-    mutableTaps = false;
     
-    taps = {
-      "homebrew/core" = inputs.homebrew-core;
-      "homebrew/cask" = inputs.homebrew-cask;
-    };
+    # Use mutable taps - Homebrew manages its own repositories
+    # This avoids issues with immutable Nix store paths
+    mutableTaps = true;
+    
+    # We don't specify taps here when using mutableTaps
+    # They will be managed by Homebrew itself below
   };
 
   # ===========================================================================
@@ -52,10 +53,16 @@ in
   homebrew = {
     enable = true;
     
+    # Specify taps for Homebrew to manage
+    taps = [
+      "homebrew/core"
+      "homebrew/cask"
+    ];
+    
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      cleanup = "zap";
+      cleanup = "none";  # Temporarily disabled for safety
     };
 
     # Combine system-wide and user-specific brews
