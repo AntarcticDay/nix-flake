@@ -2,10 +2,15 @@
 # =============================================================================
 # Homebrew configuration for MacBook Pro 2018
 # 
-# This file specifies which applications to install via Homebrew on this
-# specific machine. It combines:
+# This file manages Homebrew packages at the HOST level, combining:
 # - System-wide packages (defined here)
 # - User-specific packages (imported from users/*/homebrew/)
+#
+# Structure:
+# - System brews: CLI tools available to all users
+# - User brews: Imported from ./users/stefano/homebrew/brew.nix
+# - User casks: Imported from ./users/stefano/homebrew/cask.nix  
+# - User mas apps: Imported from ./users/stefano/homebrew/mas.nix
 # =============================================================================
 
 { inputs, ... }:
