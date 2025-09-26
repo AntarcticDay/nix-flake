@@ -20,15 +20,15 @@ rec {
   base = with pkgs.stable; [
 
     # Text editing
-    vim              # Classic terminal text editor
-    neovim           # Modern vim fork with better plugin support
+    # vim              # Classic terminal text editor
+    # neovim           # Modern vim fork with better plugin support
 
     # Network tools
     curl             # Transfer data from/to servers (HTTP, FTP, etc.)
     wget             # Download files from the web
     
     # Version control
-    git              # Essential for managing code and configurations
+    # git              # Essential for managing code and configurations
     
     # Data processing
     jq               # Command-line JSON processor (parse, filter, transform)
@@ -48,7 +48,7 @@ rec {
   
   development = with pkgs.stable; [
 
-    htop             # Interactive process viewer (better than 'top')
+    # htop             # Interactive process viewer (better than 'top')
 
     # ripgrep        # Fast file search
     # fd             # User-friendly 'find' alternative
@@ -104,7 +104,7 @@ rec {
   
   devShellPackages = base ++ (with pkgs.stable; [
     # Additional tools only needed during development
-    neovim           # For quick edits in the dev shell
+    # neovim         # For quick edits in the dev shell
 
     # direnv         # Automatic environment switching
     # lorri          # Nix shell daemon

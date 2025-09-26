@@ -14,4 +14,11 @@
   # "mas"           # Mac App Store CLI (if only this user needs it)
   # "gh"            # GitHub CLI (if only this user uses GitHub)
   # "aws"           # AWS CLI (if only this user needs AWS access)
+
+  "vim"               # Vi 'workalike' with many additional features
+  "neovim"            # Ambitious Vim-fork focused on extensibility and agility
+  "git"               # Distributed revision control system
+  "htop"              # Improved top (interactive process viewer)
+  "fastfetch"         # Like neofetch, but much faster because written mostly in C
+
 ]
