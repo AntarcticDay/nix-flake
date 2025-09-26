@@ -37,7 +37,7 @@ rec {
     nixpkgs-fmt      # Format Nix files for consistent style
     
     # Emacs editor
-    emacs            # Powerful, extensible text editor
+    # emacs            # Powerful, extensible text editor
   ];
 
   # ===========================================================================

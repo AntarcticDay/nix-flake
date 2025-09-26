@@ -102,7 +102,7 @@
       "vscodium"             # VS Code without Microsoft telemetry
       "zed"                  # High-performance code editor
       # "coteditor"          # macOS native text editor
-      # "emacs"              # Extensible text editor
+      "emacs"                # Extensible text editor
 
       # --- Design & Creativity --------------------------------------------------------------
 
@@ -134,6 +134,8 @@
       # System maintenance
       "macupdater"           # Track app updates
       # "applite"            # Homebrew GUI
+
+      mactracker             # Detailed information on every Apple product ever made
 
       # --- Device Management ------------------------------------------------------
 
