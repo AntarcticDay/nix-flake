@@ -135,7 +135,7 @@
       "macupdater"           # Track app updates
       # "applite"            # Homebrew GUI
 
-      mactracker             # Detailed information on every Apple product ever made
+      "mactracker"             # Detailed information on every Apple product ever made
 
       # --- Device Management ------------------------------------------------------
 
@@ -177,6 +177,7 @@
 
       # Game launchers
       "gog-galaxy"           # GOG.com game launcher
+      "prismlauncher"        # Minecraft launcher
       "steam"                # Steam gaming platform
 
       # Games
@@ -190,6 +191,7 @@
 
       # Emulation
       "openemu"              # Multi-system game emulator
+      "pcsx2"                # Playstation 2 Emulator
 
       # --- Virtualization ---------------------------------------------------------
 
