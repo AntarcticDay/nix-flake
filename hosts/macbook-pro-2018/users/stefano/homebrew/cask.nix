@@ -161,8 +161,8 @@
       "portfolioperformance"  # Investment portfolio tracker
 
       # Hardware wallets
-      "ledger-live"          # Ledger hardware wallet
-      "trezor-suite"         # Trezor hardware wallet
+      "ledger-wallet"        # Wallet desktop application to maintain multiple cryptocurrencies (formerly ledger-live)
+      "trezor-suite"         # Companion app for the Trezor hardware wallet
 
       # --- Media & Downloads ------------------------------------------------------
 
@@ -171,7 +171,7 @@
       # "iina"               # Modern macOS media player
 
       # Download tools
-      # "clipgrab"             # Video downloader
+      # "clipgrab"           # Video downloader
       "transmission"         # BitTorrent client
 
       # --- Gaming -----------------------------------------------------------------
