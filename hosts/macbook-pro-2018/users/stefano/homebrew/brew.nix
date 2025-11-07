@@ -15,10 +15,15 @@
   # "gh"            # GitHub CLI (if only this user uses GitHub)
   # "aws"           # AWS CLI (if only this user needs AWS access)
 
+  "mas"               # Mac App Store command-line interface
   "vim"               # Vi 'workalike' with many additional features
   "neovim"            # Ambitious Vim-fork focused on extensibility and agility
+  "emacs"             # GNU Emacs text editor
   "git"               # Distributed revision control system
   "htop"              # Improved top (interactive process viewer)
   "fastfetch"         # Like neofetch, but much faster because written mostly in C
+  "speedtest-cli"     # Command-line interface for https://speedtest.net bandwidth tests
+  "yt-dlp"            # Feature-rich command-line audio/video downloader
+  "wget"              # Internet file retriever
 
 ]

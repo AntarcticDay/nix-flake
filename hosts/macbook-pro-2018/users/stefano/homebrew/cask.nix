@@ -102,11 +102,12 @@
       "vscodium"             # VS Code without Microsoft telemetry
       "zed"                  # High-performance code editor
       # "coteditor"          # macOS native text editor
-      "emacs"                # Extensible text editor
+      "emacs-app"            # Text editor
 
       # --- Design & Creativity --------------------------------------------------------------
 
       "adobe-creative-cloud"  # Adobe CC suite manager
+      "darktable"             # Photography workflow application and raw developer
 
       # --- Utilities --------------------------------------------------------------
 
