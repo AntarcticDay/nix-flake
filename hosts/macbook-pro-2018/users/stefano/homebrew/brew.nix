@@ -25,5 +25,6 @@
   "speedtest-cli"     # Command-line interface for https://speedtest.net bandwidth tests
   "yt-dlp"            # Feature-rich command-line audio/video downloader
   "wget"              # Internet file retriever
+  "pandoc"            # Swiss-army knife of markup format conversion
 
 ]

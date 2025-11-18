@@ -30,6 +30,7 @@
       "brave-browser@beta"   # Brave beta channel
       "chromium"             # Open-source Chrome
       "firefox"              # Mozilla Firefox
+      # "firefox@esr"        # Mozilla Firefox ESR, Mozilla Firefox Extended Support Release
       "google-chrome"        # Google Chrome
       "orion"                # WebKit browser with Chrome/Firefox extensions
       "vivaldi"              # Customizable browser
