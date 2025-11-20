@@ -74,9 +74,9 @@ let
   # Example: "x86_64-linux" -> "x86_64"
   getArch = system: builtins.head (builtins.split "-" system);
   
-  # Extract the platform (OS) from a system string  
+  # Extract the platform (OS) from a system string
   # Example: "x86_64-linux" -> "linux"
-  getPlatform = system: builtins.elemAt (builtins.split "-" system) 2;
+  getPlatform = system: builtins.elemAt (builtins.split "-" system) 1;
   
   # Check if a system is Linux-based
   # Useful for Linux-specific configurations
