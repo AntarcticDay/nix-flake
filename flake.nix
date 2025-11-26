@@ -70,7 +70,8 @@
     # - Manages: system packages, services, preferences
     # - Declarative alternative to manual brew/defaults commands
     nix-darwin = {
-        url = "github:LnL7/nix-darwin";
+      # Keep nix-darwin on the same release branch as our stable nixpkgs
+      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     

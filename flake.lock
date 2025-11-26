@@ -113,11 +113,13 @@
         "owner": "LnL7",
         "repo": "nix-darwin",
         "rev": "e95de00a471d07435e0527ff4db092c84998698e",
+        "ref": "nix-darwin-25.05",
         "type": "github"
       },
       "original": {
         "owner": "LnL7",
         "repo": "nix-darwin",
+        "ref": "nix-darwin-25.05",
         "type": "github"
       }
     },
