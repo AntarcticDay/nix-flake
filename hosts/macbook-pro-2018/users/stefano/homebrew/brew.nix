@@ -33,4 +33,17 @@
   "shellcheck"        # Static analysis and lint tool, for (ba)sh scripts
   "pandoc"            # Swiss-army knife of markup format conversion
 
+  # "pkgconf"         # Package compiler and linker metadata toolkit
+  # "automake"        # Tool for generating GNU Standards-compliant Makefiles
+  # "texinfo"         # Official documentation format of the GNU project
+  # "libgccjit"       # JIT library for the GNU compiler collection
+  # "gnutls"          # GNU Transport Layer Security (TLS) Library
+  # "jansson"         # C library for encoding, decoding, and manipulating JSON
+  # "libxml2"         # GNOME XML library
+  # "libpng"          # Library for manipulating PNG images
+  # "librsvg"         # Library to render SVG files using Cairo
+  # "jpeg"            # Image manipulation library
+  # "giflib"          # Library and utilities for processing GIFs
+  # "libtiff"         # TIFF library and utilities
+
 ]
