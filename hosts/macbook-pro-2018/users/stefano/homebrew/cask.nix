@@ -208,4 +208,8 @@
       "font-ia-writer-mono"    # Monospace variant
       "font-ia-writer-quattro" # Serif variant
 
+      # Nerd Fonts
+      "font-hack-nerd-font"    # Hack Nerd Font (Hack)
+      "font-symbols-only-nerd-font" # Symbols Nerd Font (Symbols Only)
+
 ]

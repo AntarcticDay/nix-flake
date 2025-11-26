@@ -28,6 +28,7 @@
   "fd"                # Simple, fast and user-friendly alternative to find
   "fontconfig"        # XML-based font configuration API for X Windows
   "grep"              # GNU grep, egrep and fgrep
+  "ripgrep"           # Search tool like grep and The Silver Searcher
   "coreutils"         # GNU File, Shell, and Text utilities
   "shellcheck"        # Static analysis and lint tool, for (ba)sh scripts
   "pandoc"            # Swiss-army knife of markup format conversion
