@@ -13,7 +13,7 @@
 # - User mas apps: Imported from ./users/stefano/homebrew/mas.nix
 # =============================================================================
 
-{ inputs, ... }:
+{ inputs, lib, ... }:
 
 let
   # Import user-specific Homebrew lists
@@ -42,7 +42,12 @@ in
     enable = true;
     enableRosetta = false;
     user = "stefano";
-    
+
+    # Ensure the Homebrew prefix (/usr/local on Intel) exists before taps
+    # are added. Without this, tap operations like d12frosted/emacs-plus
+    # fail because the /usr/local/Homebrew tree hasn't been bootstrapped.
+    autoMigrate = true;
+
     # Use mutable taps - Homebrew manages its own repositories
     # This avoids issues with immutable Nix store paths
     mutableTaps = true;
