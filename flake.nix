@@ -39,16 +39,16 @@
     # -------------------------------------------------------------------------
     # We use multiple nixpkgs channels to balance stability and features
     
-    # Stable channel via FlakeHub
-    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    
+    # Stable channel pinned to the 25.05 release
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/release-25.05";
+
     # Unstable channel from GitHub  
     # - Latest package versions and features
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     
     # Default nixpkgs (what you get with just `pkgs`)
-    # We follow unstable for the latest packages by default
-    nixpkgs.follows = "nixpkgs-unstable";
+    # Follow the stable channel so nixpkgs and Home Manager share 25.05
+    nixpkgs.follows = "nixpkgs-stable";
     
     # -------------------------------------------------------------------------
     # System Configuration Tools

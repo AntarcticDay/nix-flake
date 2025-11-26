@@ -72,11 +72,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1764172344,
-        "narHash": "sha256-E2GygM2IfDBLyn9Rw7Ne778M2D5vIwTO0Ruq3CYSCrE=",
+        "lastModified": 1764174104,
+        "narHash": "sha256-W4zyIo9ljr1NSMI9Av3halTlAslFQYmEi7uOnJ/lO8c=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "6a8439bd7c84328a6834d88a2f8c458adf88fc78",
+        "rev": "18faad212ac5179db30323602bb7981f767bdd69",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1764171452,
-        "narHash": "sha256-pbJP9naZlLuXjXp1C4O9hkd7hBXzdaXTfJ/v/pw0Blw=",
+        "lastModified": 1764174175,
+        "narHash": "sha256-c17ZjytSUy3Pp85lsxFrB5hvHexJ+LNYCnXrCJ7KCBY=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "7063f741fa04282852b3319e199c17f39dd3c171",
+        "rev": "bb444f4800ad7e3f6557134980bef976e7bfcee1",
         "type": "github"
       },
       "original": {
@@ -157,16 +157,18 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1763948260,
-        "narHash": "sha256-dY9qLD0H0zOUgU3vWacPY6Qc421BeQAfm8kBuBtPVE0=",
-        "rev": "1c8ba8d3f7634acac4a2094eef7c32ad9106532c",
-        "revCount": 813095,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2505.813095%2Brev-1c8ba8d3f7634acac4a2094eef7c32ad9106532c/019ab6d8-0005-7317-844d-5d868444249f/source.tar.gz"
+        "lastModified": 1764156198,
+        "narHash": "sha256-FVANXWu9faMs9TJdomfas6Ef2qcKBcKzdjBHiEloVwI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5f5023ba973d44faf66ad408313c242e5495beea",
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A"
+        "owner": "NixOS",
+        "ref": "release-25.05",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "nixpkgs-unstable": {
@@ -195,7 +197,7 @@
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs-stable"
         ],
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",

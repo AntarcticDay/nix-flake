@@ -22,7 +22,6 @@
   # "emacs"             # GNU Emacs text editor
   {
     name = "emacs-plus";
-    tap = "d12frosted/emacs-plus";
     args = ["with-dbus" "with-debug" "with-imagemagick" "with-mailutils" "with-x11" "with-xwidgets"];
   }
 
