@@ -18,13 +18,7 @@
   "mas"               # Mac App Store command-line interface
   "vim"               # Vi 'workalike' with many additional features
   "neovim"            # Ambitious Vim-fork focused on extensibility and agility
-
-  # "emacs"             # GNU Emacs text editor
-  {
-    name = "emacs-plus";
-    args = ["with-dbus" "with-debug" "with-imagemagick" "with-mailutils" "with-x11" "with-xwidgets"];
-  }
-
+  "emacs"             # GNU Emacs text editor
   "git"               # Distributed revision control system
   "htop"              # Improved top (interactive process viewer)
   "fastfetch"         # Like neofetch, but much faster because written mostly in C
@@ -37,7 +31,5 @@
   "coreutils"         # GNU File, Shell, and Text utilities
   "shellcheck"        # Static analysis and lint tool, for (ba)sh scripts
   "pandoc"            # Swiss-army knife of markup format conversion
-
-
 
 ]

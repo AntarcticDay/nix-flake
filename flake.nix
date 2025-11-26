@@ -59,8 +59,8 @@
     # - Per-user configuration (each user gets their own config)
     # - Works on: NixOS, macOS, other Linux distros
     homeManager = {
-      # Follow Home Manager master for the latest updates
-      url = "github:nix-community/home-manager";
+      # Track the Home Manager release that matches our nixpkgs version
+      url = "github:nix-community/home-manager/release-25.05";
       # Keep Home Manager on the same nixpkgs release as `nixpkgs-stable`
       # so updating that input automatically updates Home Manager's base.
       inputs.nixpkgs.follows = "nixpkgs-stable";

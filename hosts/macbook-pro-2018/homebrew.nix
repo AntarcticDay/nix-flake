@@ -64,7 +64,6 @@ in
       # Example of third-party taps:
       # "homebrew/services"
       # "homebrew/cask-versions"
-      "d12frosted/emacs-plus"
     ];
     
     onActivation = {
