@@ -64,12 +64,13 @@
       # Keep Home Manager on the same nixpkgs release as `nixpkgs-stable`
       # so updating that input automatically updates Home Manager's base.
       inputs.nixpkgs.follows = "nixpkgs-stable";
-    
+    };
+
     # nix-darwin - macOS system configuration
     # - Manages: system packages, services, preferences
     # - Declarative alternative to manual brew/defaults commands
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
+        url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
