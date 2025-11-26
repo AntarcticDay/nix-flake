@@ -156,6 +156,24 @@ nix run nixpkgs#cowsay -- "Hello from Nix!"
 nix flake update
 ```
 
+##### GitHub API rate limits
+
+If `nix flake update` prints warnings like:
+
+```
+warning: error: unable to download 'https://api.github.com/repos/.../commits/HEAD': HTTP error 403
+
+{"message":"API rate limit exceeded ..."}
+```
+
+GitHub is throttling anonymous requests from your IP. Nix will temporarily use cached versions, but to avoid the errors you can authenticate:
+
+- Set a token just for the command: `GITHUB_TOKEN=<token> nix flake update`
+- Or export it once for your shell: `export GITHUB_TOKEN=<token>`
+- GitHub CLI works too: `gh auth login` (then `nix` will reuse the token).
+
+Tokens only need `public_repo` scope for public flakes.
+
 #### Update specific input
 
 ```
