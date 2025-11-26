@@ -25,6 +25,11 @@
   "speedtest-cli"     # Command-line interface for https://speedtest.net bandwidth tests
   "yt-dlp"            # Feature-rich command-line audio/video downloader
   "wget"              # Internet file retriever
+  "fd"                # Simple, fast and user-friendly alternative to find
+  "fontconfig"        # XML-based font configuration API for X Windows
+  "grep"              # GNU grep, egrep and fgrep
+  "coreutils"         # GNU File, Shell, and Text utilities
+  "shellcheck"        # Static analysis and lint tool, for (ba)sh scripts
   "pandoc"            # Swiss-army knife of markup format conversion
 
 ]

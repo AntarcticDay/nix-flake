@@ -107,6 +107,7 @@
 
       # --- Design & Creativity --------------------------------------------------------------
 
+      "affinity"              # Image editing and design software
       "adobe-creative-cloud"  # Adobe CC suite manager
       "darktable"             # Photography workflow application and raw developer
 
@@ -178,8 +179,8 @@
       # --- Gaming -----------------------------------------------------------------
 
       # Game launchers
-      "gog-galaxy"           # GOG.com game launcher
-      "prismlauncher"        # Minecraft launcher
+      # "gog-galaxy"         # GOG.com game launcher
+      # "prismlauncher"      # Minecraft launcher
       "steam"                # Steam gaming platform
 
       # Games
@@ -192,8 +193,8 @@
       "nvidia-geforce-now"   # Cloud gaming service
 
       # Emulation
-      "openemu"              # Multi-system game emulator
-      "pcsx2"                # Playstation 2 Emulator
+      # "openemu"            # Multi-system game emulator
+      # "pcsx2"              # Playstation 2 Emulator
 
       # --- Virtualization ---------------------------------------------------------
 
