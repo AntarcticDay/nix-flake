@@ -111,8 +111,9 @@
     flake-utils.url = "github:numtide/flake-utils";
     
     # Treefmt-nix - Universal code formatter integration
-    # Can format Nix, Python, Go, etc. with one command
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    # Explicitly pin the branch to avoid GitHub HEAD resolution issues on
+    # Nix 2.31 (which can crash when trying to resolve HEAD).
+    treefmt-nix.url = "github:numtide/treefmt-nix?ref=main";
     
     # Flake schemas - Validation and documentation for flake outputs
     # Helps tools understand and validate our flake structure
