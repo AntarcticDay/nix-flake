@@ -16,7 +16,7 @@
       # "skype"              # Classic video calling (legacy)
 
       # Remote access
-      "teamviewer"           # Remote desktop and support
+      # "teamviewer"         # Remote desktop and support
 
       # Email clients
       "thunderbird"          # Open-source email client
