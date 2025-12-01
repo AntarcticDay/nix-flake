@@ -18,7 +18,7 @@
   "mas"               # Mac App Store command-line interface
   "vim"               # Vi 'workalike' with many additional features
   "neovim"            # Ambitious Vim-fork focused on extensibility and agility
-  # "emacs"           # GNU Emacs text editor
+  # "emacs"             # GNU Emacs text editor
   "git"               # Distributed revision control system
   "htop"              # Improved top (interactive process viewer)
   "fastfetch"         # Like neofetch, but much faster because written mostly in C

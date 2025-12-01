@@ -103,7 +103,7 @@
       "vscodium"             # VS Code without Microsoft telemetry
       "zed"                  # High-performance code editor
       # "coteditor"          # macOS native text editor
-      "emacs-app"            # Text editor
+      # "emacs-app"            # Text editor
 
       # --- Design & Creativity --------------------------------------------------------------
 
