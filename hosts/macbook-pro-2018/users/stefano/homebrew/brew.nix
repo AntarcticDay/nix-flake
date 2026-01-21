@@ -32,6 +32,8 @@
   "coreutils"         # GNU File, Shell, and Text utilities
   "shellcheck"        # Static analysis and lint tool, for (ba)sh scripts
   "pandoc"            # Swiss-army knife of markup format conversion
+  "jq"                # Lightweight and flexible command-line JSON processor
+  "asciidoctor"       # Text processor and publishing toolchain for AsciiDoc
 
   # "pkgconf"         # Package compiler and linker metadata toolkit
   # "automake"        # Tool for generating GNU Standards-compliant Makefiles

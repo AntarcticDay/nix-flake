@@ -29,7 +29,7 @@ let
     "ncurses"      # Terminal control library
     "node"         # Node.js JavaScript runtime
     "ungit"        # Git UI
-    "forgejo"      # Self-hosted forge
+    # "forgejo"    # Self-hosted forge
     "fastfetch"    # System info fetcher
   ];
 in

@@ -17,6 +17,7 @@
 
       # Remote access
       # "teamviewer"         # Remote desktop and support
+      "rustdesk"             # Open source virtual/remote desktop application
 
       # Email clients
       "thunderbird"          # Open-source email client
@@ -104,6 +105,7 @@
       "zed"                  # High-performance code editor
       # "coteditor"          # macOS native text editor
       "emacs-app"            # Text editor
+      "asciidocfx"           # Asciidoc editor and toolchain to build books, documents and slides
 
       # --- Design & Creativity --------------------------------------------------------------
 
