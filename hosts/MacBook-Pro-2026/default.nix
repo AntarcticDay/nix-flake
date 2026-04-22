@@ -18,5 +18,7 @@
 
   networking.hostName = "MacBook-Pro-2026";
 
+  system.primaryUser = "stefano";
+
   system.stateVersion = 5;
 }
