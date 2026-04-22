@@ -7,7 +7,7 @@
     ./packages.nix
     ./home-manager.nix
     ./homebrew.nix
-    ./users/stefano/default.nix
+    # ./users/stefano/default.nix
   ];
 
   # Usa Lix come implementazione di Nix
