@@ -304,17 +304,25 @@
       # macOS system configurations (one per host)
       # Apply with: darwin-rebuild switch --flake .#macbook-pro-2018
       darwinConfigurations = {
+
         # MacBook Pro 2018 (Intel)
         "macbook-pro-2018" = mkDarwinSystem {
           hostname = "macbook-pro-2018";
           system = "x86_64-darwin";
         };
-        
+
+        # MacBook Pro 2026 (Apple M5 Pro)
+        "MacBook-Pro-2026" = mkDarwinSystem {
+          hostname = "MacBook-Pro-2026";
+          system = "aarch64-darwin";
+          };
+
         # Future: Add more macOS systems here
         # "macbook-pro-m5" = mkDarwinSystem {
         #   hostname = "macbook-pro-m5";
         #   system = "aarch64-darwin";
         # };
+
       };
       
       # NixOS configurations (for future use)
