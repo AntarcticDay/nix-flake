@@ -3,11 +3,13 @@
 
 A modular, multi-system Nix flake configuration for managing macOS and NixOS systems declaratively.
 
-Built with [Determinate Nix](https://determinate.systems/) for enhanced reliability and developer experience.
+Works with standard Nix and [Lix](https://lix.systems/).
 
-[![FlakeHub](https://img.shields.io/badge/FlakeHub-published-blue)](https://flakehub.com/flake/GglassGghosst/determinate-nix-flake/)
+~~Built with [Determinate Nix](https://determinate.systems/) for enhanced reliability and developer experience.~~
 
-[![Rolling Release](https://img.shields.io/badge/release-rolling-green)](https://github.com/GglassGghosst/determinate-nix-flake)
+~~[![FlakeHub](https://img.shields.io/badge/FlakeHub-published-blue)](https://flakehub.com/flake/GglassGghosst/determinate-nix-flake/)~~
+
+~~[![Rolling Release](https://img.shields.io/badge/release-rolling-green)](https://github.com/GglassGghosst/determinate-nix-flake)~~
 
 ## 📋 Overview
 
@@ -222,4 +224,4 @@ Home Manager Manual: https://nix-community.github.io/home-manager/
 
 Nixpkgs Manual: https://nixos.org/manual/nixpkgs/stable/
 
-Determinate Systems: https://determinate.systems/
+~~Determinate Systems: https://determinate.systems/~~
