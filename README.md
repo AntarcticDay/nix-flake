@@ -1,5 +1,5 @@
 
-# Determinate Nix Flake
+# Nix Flake
 
 A modular, multi-system Nix flake configuration for managing macOS and NixOS systems declaratively.
 
