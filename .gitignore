@@ -363,7 +363,7 @@ Cargo.lock
 .nix-channels
 
 # Old Nix expressions (if migrating from non-flake)
-default.nix
+# default.nix
 shell.nix
 configuration.nix.backup
 

@@ -40,12 +40,12 @@
       # Automatic store optimization
       # Deduplicate files in the Nix store using hard links
       # This can save significant disk space
-      auto-optimise-store = lib.mkDefault true;
+      # auto-optimise-store = lib.mkDefault true;
       
       # Show more output during builds
       # Useful for debugging build issues
       # Set to false for quieter builds
-      build-verbose = lib.mkDefault false;
+      # build-verbose = lib.mkDefault false;
       
       # Keep build logs for debugging
       # Logs are stored compressed in /nix/var/log/nix/drvs/
@@ -70,7 +70,7 @@
       # - true: Full sandboxing (recommended)
       # - false: No sandboxing (faster but less secure)
       # - relaxed: Allows network access during builds
-      sandbox = lib.mkDefault true;
+      # sandbox = lib.mkDefault true;
       
       # Only allow content-addressed derivations to access the network
       # This improves reproducibility
@@ -121,6 +121,10 @@
       max-free = lib.mkDefault (10 * 1024 * 1024 * 1024); # 10 GB
     };
     
+  # Ottimizzazione automatica dello store: de-duplica i file con hard link.
+  # Usa l'opzione nix-darwin invece di auto-optimise-store, che può corrompere lo store.
+  optimise.automatic = true;
+
     # ---------------------------------------------------------------------------
     # Registry Configuration
     # ---------------------------------------------------------------------------

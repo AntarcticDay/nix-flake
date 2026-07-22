@@ -36,7 +36,13 @@ let
   
   # SillyTavern overlay
   # sillytavernOverlay = import ./sillytavern.nix;
-  
+
+# Workaround per nix-homebrew: cerca pkgs.ruby_4_0, che non esiste in nixpkgs 25.05.
+  # Alias temporaneo verso ruby_3_4 finché nix-homebrew o nixpkgs non si aggiornano.
+  nixHomebrewFixOverlay = final: prev: {
+    ruby_4_0 = pkgsUnstableRaw.ruby_4_0;
+  };
+
   # ===========================================================================
   # Future Overlay Examples (commented out)
   # ===========================================================================
@@ -66,6 +72,8 @@ in
   
   # 2. Additional overlays
   #    Add them in logical order based on dependencies
+
+  nixHomebrewFixOverlay
 
   # sillytavernOverlay
 

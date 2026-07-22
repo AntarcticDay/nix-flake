@@ -56,6 +56,9 @@ in
     
     # We don't specify taps here when using mutableTaps
     # They will be managed by Homebrew itself
+
+    patchBrew = true;
+
   };
 
   # ===========================================================================
@@ -76,7 +79,7 @@ in
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      cleanup = "none";    # zap / none
+      cleanup = "zap";    # zap / none
     };
 
     # Combine system-wide and user-specific brews

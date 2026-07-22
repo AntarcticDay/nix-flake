@@ -56,44 +56,29 @@
   # IMPORTANT: We're using Determinate Nix, which manages its own Nix daemon
   # and configuration. We only override what's necessary for Darwin.
   
-  nix = {
-    # ---------------------------------------------------------------------------
+nix = {
+    # -------------------------------------------------------------------------
     # Nix Daemon Management
-    # ---------------------------------------------------------------------------
-    # 
-    # CRITICAL: This must be false when using Determinate Nix!
-    # 
-    # Why enable = false?
-    # - Determinate Nix installs and manages its own Nix daemon
-    # - It provides optimized configuration in /etc/nix/nix.conf
-    # - It runs additional services (like Determinate Nixd for FlakeHub)
-    # - Setting this to true would conflict with Determinate's setup
-    # 
-    # What Determinate Nix provides:
-    # - Standard Nix daemon (same as upstream Nix)
-    # - Automatic flakes and nix-command enablement
-    # - FlakeHub authentication and caching
-    # - Optimized store settings
-    # - Automatic garbage collection
-    # 
-    # Reference: https://docs.determinate.systems/determinate-nix/
-    enable = false;
-    
-    # ---------------------------------------------------------------------------
-    # Darwin-Specific Settings
-    # ---------------------------------------------------------------------------
-    # 
-    # These settings are specific to macOS and override the common settings
-    # from ../common/nix.nix when necessary.
-    
+    # -------------------------------------------------------------------------
+    #
+    # enable = true: nix-darwin gestisce il demone Nix e scrive /etc/nix/nix.conf.
+    # Questo è corretto per Lix, che si comporta come Nix standard.
+    # (Era false quando si usava Determinate Nix, che gestiva il proprio demone.)
+    enable = true;
+
     settings = {
-      # macOS-specific sandbox configuration
-      # On Darwin, sandboxing requires specific entitlements
-      sandbox = lib.mkDefault "relaxed";  # More compatible with macOS
-      
-      # Use case-sensitive file system awareness
-      # macOS is typically case-insensitive, this helps Nix handle it correctly
-      case-hack = lib.mkDefault true;
+      # macOS: la sandbox "relaxed" è più compatibile con le build Darwin
+      sandbox = lib.mkDefault "relaxed";
+
+      # Consapevolezza del filesystem case-insensitive di macOS
+      # case-hack = lib.mkDefault true;
+
+      # Cache binaria di Lix: velocizza i download usando i binari pre-compilati
+      always-allow-substitutes = lib.mkDefault true;
+      extra-trusted-substituters = [ "https://cache.lix.systems" ];
+      extra-trusted-public-keys = [
+        "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      ];
     };
   };
 

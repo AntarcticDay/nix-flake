@@ -16,9 +16,9 @@
       # "Daylite"                              = 965269916;   # CRM for macOS
       # "Things 3"                             = 904280696;   # Task manager
       # "UPDF 2 - Editor PDF AI"               = 1619925971;  # PDF editor
-      # "Numbers"                              = 409203825;   # Apple spreadsheet
-      # "Pages"                                = 409201541;   # Apple word processor
-      # "Keynote"                            = 409183694;   # Apple presentations
+      "Numbers"                              = 409203825;   # Apple spreadsheet
+      "Pages"                                = 409201541;   # Apple word processor
+      "Keynote"                            = 409183694;   # Apple presentations
       # "Deliveries: a package tracker"      = 290986013;   # Package tracking
       # "LanguageTool - Grammar-Checker"     = 1534275760;  # Grammar checker
       # "Save to Raindrop.io"                = 1549370672;  # Raindrop extension
@@ -57,7 +57,7 @@
       
       "Amazon Kindle"                        = 302584613;   # E-book reader
       # "Kindle Classic"                     = 405399194;   # Old Kindle app
-      # "Reeder Classic."                      = 1529448980;  # RSS reader
+      "Reeder Classic."                      = 1529448980;  # RSS reader
       # "Spreeder VIP - Desktop"             = 1556368936;  # Speed reading
       
       # --- Media Production -------------------------------------------------------
@@ -65,11 +65,13 @@
       # "Blackmagic RAW Player"              = 1435415804;  # RAW video player
       # "Blackmagic RAW Speed Test"          = 1466185689;  # Performance test
       # "DaVinci Resolve"                    = 571213070;   # Video editor
-      # "GarageBand"                         = 682658836;   # Music creation
-      # "iMovie"                             = 408981434;   # Video editor
+      "GarageBand"                           = 682658836;   # Music creation
+      "iMovie"                               = 408981434;   # Video editor
 
       # --- Others -----------------------------------------------------------------
 
       # "goldenRATIO - The tool for every designer and developer." = 485258055;
+      "uBlock Origin Lite"                   = 6745342698;
+      "Vimari"                               = 1480933944;
 
 }

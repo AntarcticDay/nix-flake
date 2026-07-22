@@ -9,16 +9,13 @@
 [
   # User-specific CLI tools can be added here
   # For now, keeping empty as most CLI tools are system-wide
-  
-  # Examples of user-specific tools:
-  # "mas"           # Mac App Store CLI (if only this user needs it)
-  # "gh"            # GitHub CLI (if only this user uses GitHub)
-  # "aws"           # AWS CLI (if only this user needs AWS access)
 
+  "zsh"               # UNIX shell (command interpreter)
   "mas"               # Mac App Store command-line interface
+  "gh"                # GitHub CLI (if only this user uses GitHub)
   "vim"               # Vi 'workalike' with many additional features
   "neovim"            # Ambitious Vim-fork focused on extensibility and agility
-  # "emacs"             # GNU Emacs text editor
+  # "emacs"           # GNU Emacs text editor
   "git"               # Distributed revision control system
   "htop"              # Improved top (interactive process viewer)
   "fastfetch"         # Like neofetch, but much faster because written mostly in C
@@ -31,9 +28,11 @@
   "ripgrep"           # Search tool like grep and The Silver Searcher
   "coreutils"         # GNU File, Shell, and Text utilities
   "shellcheck"        # Static analysis and lint tool, for (ba)sh scripts
-  # "pandoc"            # Swiss-army knife of markup format conversion
+  # "pandoc"          # Swiss-army knife of markup format conversion
   "jq"                # Lightweight and flexible command-line JSON processor
   "asciidoctor"       # Text processor and publishing toolchain for AsciiDoc
+
+  "python@3.12"       # Interpreted, interactive, object-oriented programming language
 
   # "pkgconf"         # Package compiler and linker metadata toolkit
   # "automake"        # Tool for generating GNU Standards-compliant Makefiles

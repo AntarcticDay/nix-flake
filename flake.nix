@@ -241,8 +241,9 @@
           # Order matters: base modules first, then our customizations
           modules = [
             # Base nix-darwin module (required)
-            nix-darwin.darwinModules.simple
-            
+            # nix-darwin.darwinModules.simple
+            # nix-darwin.darwinModules.default
+
             # Home Manager integration
             # This adds home-manager options to the configuration
             homeManager.darwinModules.home-manager
