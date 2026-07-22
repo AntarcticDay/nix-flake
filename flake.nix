@@ -123,7 +123,7 @@
 
     # Flake schemas - Validation and documentation for flake outputs
     # Helps tools understand and validate our flake structure
-    flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+    # flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
   };
 
   # ===========================================================================
