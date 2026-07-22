@@ -1,4 +1,4 @@
-# hosts/macbook-pro-2018/users/stefano/homebrew/cask.nix
+# hosts/macbook-pro-2026/users/stefano/homebrew/cask.nix
 # =============================================================================
 # List of GUI apps (casks) for this host. Keep it alphabetized within sections.
 # =============================================================================
@@ -107,6 +107,8 @@
       "zed"                     # High-performance code editor
       # "coteditor"             # macOS native text editor
       # "emacs-app"             # Text editor
+      # "emacs-plus-app"        # Managed manually via `brew install emacs-plus` (formula, not cask).
+                                  # Kept out of Nix because brew bundle can't load the d12frosted/emacs-plus tap (Homebrew 6 tap-trust bug).
       "asciidocfx"              # Asciidoc editor and toolchain to build books, documents and slides
 
       # --- Design & Creativity --------------------------------------------------------------

@@ -1,7 +1,7 @@
-# hosts/macbook-pro-2018/users/stefano/homebrew/brew.nix
+# hosts/macbook-pro-2026/users/stefano/homebrew/brew.nix
 # =============================================================================
 # User-specific CLI tools via Homebrew
-# 
+#
 # This file contains CLI tools that are specific to this user's workflow.
 # System-wide CLI tools should go in the host's homebrew.nix instead.
 # =============================================================================
