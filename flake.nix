@@ -121,9 +121,6 @@
     # Nix 2.31 (which can crash when trying to resolve HEAD).
     treefmt-nix.url = "github:numtide/treefmt-nix?ref=main";
 
-    # Flake schemas - Validation and documentation for flake outputs
-    # Helps tools understand and validate our flake structure
-    # flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
   };
 
   # ===========================================================================
@@ -344,9 +341,6 @@
       # -----------------------------------------------------------------------
       # Other Outputs
       # -----------------------------------------------------------------------
-
-      # Flake schemas for validation (optional)
-      schemas = inputs.flake-schemas.schemas;
 
       # Overlays that can be used by other flakes
       # overlays.default = import ./overlays { ... };
