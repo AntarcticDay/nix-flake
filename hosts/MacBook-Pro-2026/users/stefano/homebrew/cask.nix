@@ -8,12 +8,14 @@
       # --- Communication & Collaboration ------------------------------------------
 
       # Instant messaging and video calls
-      # "discord"               # Gaming and community chat
+      "discord"                 # Gaming and community chat
       "microsoft-teams"         # Business collaboration
       "zoom"                    # Video conferencing
       "telegram"                # Secure messaging
       "whatsapp"                # WhatsApp desktop client
       # "skype"                 # Classic video calling (legacy)
+      "simplex"                 # Messenger for SimpleX protocol
+
 
       # Remote access
       # "teamviewer"            # Remote desktop and support
