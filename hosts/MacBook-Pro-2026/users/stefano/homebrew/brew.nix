@@ -47,4 +47,6 @@
   # "giflib"          # Library and utilities for processing GIFs
   # "libtiff"         # TIFF library and utilities
 
+  "gitup"             # Update multiple git repositories at once
+
 ]
