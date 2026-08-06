@@ -102,7 +102,7 @@
       # "github"                # Desktop client for GitHub repositories
 
       #  GitUp
-      # "gitup-app"             # Git interface focused on visual interaction
+      "gitup-app"               # Git interface focused on visual interaction
 
       # Code editors and IDEs
       "vscodium"                # VS Code without Microsoft telemetry
