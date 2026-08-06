@@ -183,7 +183,7 @@
 
       # Download tools
       # "clipgrab"              # Video downloader
-      # "transmission"          # BitTorrent client
+      "transmission"            # BitTorrent client
 
       # --- Gaming -----------------------------------------------------------------
 
