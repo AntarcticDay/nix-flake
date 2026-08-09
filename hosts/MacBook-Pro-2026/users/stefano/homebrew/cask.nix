@@ -233,8 +233,9 @@
       "docker-desktop"          # docker-desktop
       "lm-studio"               # Discover, download, and run local LLMs
       "thaw"                    # Menu bar manager
-      "comfy"                 # Node-based image, video and audio generator
+      "comfy"                   # Node-based image, video and audio generator
       "claude"                  # Anthropic's official Claude AI desktop app
       "simplex"                 # Messenger for SimpleX protocol
+      "caskhub"                 # Native GUI for Homebrew casks
 
 ]
