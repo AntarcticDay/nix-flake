@@ -92,7 +92,6 @@ in
     # trust = {
     #   # Per-item trust is preferable to trusting a whole tap, which would mean
     #   # accepting all of its current AND future formulae and casks.
-    #   casks = [ "alielsokary/tap/caskhub" ];
     #   formulae = [ "d12frosted/emacs-plus/emacs-plus" ];
     # };
   };
@@ -119,12 +118,6 @@ in
       # (emacs-plus is managed manually as a formula), but the tap is kept
       # declared so `brew upgrade emacs-plus` keeps working.
       "d12frosted/emacs-plus"
-
-      # CaskHub - native SwiftUI GUI for browsing and installing Homebrew casks.
-      # MIT licensed and open source. Not available in homebrew-cask: it is
-      # published only in the author's own tap. The cask itself ("caskhub") is
-      # listed in users/stefano/homebrew/cask.nix.
-      "alielsokary/tap"
 
       # Example of other third-party taps:
       # "homebrew/services"
@@ -163,11 +156,7 @@ in
   # One-time manual setup required on this host
   # ===========================================================================
   #
-  #   brew tap alielsokary/tap
-  #   brew trust --cask alielsokary/tap/caskhub
+  # None.
   #
-  # This grants Homebrew 6 tap trust imperatively. It persists on the machine
-  # and only needs to be done once. Replace it with the declarative
-  # `nix-homebrew.trust` block above once the input has been updated.
   # ===========================================================================
 }

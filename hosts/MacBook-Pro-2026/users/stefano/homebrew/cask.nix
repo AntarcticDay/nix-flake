@@ -14,8 +14,7 @@
       "telegram"                # Secure messaging
       "whatsapp"                # WhatsApp desktop client
       # "skype"                 # Classic video calling (legacy)
-      "simplex"                 # Messenger for SimpleX protocol
-
+      # "simplex"                 # Messenger for SimpleX protocol
 
       # Remote access
       # "teamviewer"            # Remote desktop and support
@@ -39,6 +38,8 @@
       # "orion"                 # WebKit browser with Chrome/Firefox extensions
       "vivaldi"                 # Customizable browser
       "zen"                     # Privacy-focused browser based on Firefox
+      "mullvad-browser"         # Privacy browser by Mullvad + the Tor Project.
+
 
       # Utilities
       # "webcatalog"            # Turn websites into desktop apps
@@ -146,13 +147,16 @@
       # System maintenance
       # "macupdater"            # Track app updates
       # "applite"               # Homebrew GUI
+      "caskhub"                 # Native GUI for Homebrew casks
 
       # "mactracker"            # Detailed information on every Apple product ever made
 
       # --- Device Management ------------------------------------------------------
 
       # Peripheral software
-      "logi-options+"           # Logitech device manager (new version)
+
+      "openlogi"                # Local-first alternative to Logitech Options+ for HID++ devices
+      # "logi-options+"         # Logitech device manager (new version)
       # "logitech-options"      # Legacy Logitech software
       # "logitech-g-hub"        # Logitech gaming peripherals
       # "bose-updater"          # Bose device firmware updates
@@ -165,6 +169,7 @@
       # VPN clients (commented - choose one)
       # "protonvpn"             # ProtonVPN client
       # "surfeasy-vpn"          # SurfEasy VPN
+      "mullvad-vpn"             # Mullvad VPN client.
 
       # --- Finance & Cryptocurrency -----------------------------------------------
 
@@ -235,7 +240,7 @@
       "thaw"                    # Menu bar manager
       "comfy"                   # Node-based image, video and audio generator
       "claude"                  # Anthropic's official Claude AI desktop app
-      "simplex"                 # Messenger for SimpleX protocol
-      "caskhub"                 # Native GUI for Homebrew casks
+      "netnewswire"             # Free and open-source RSS reader
+      "rclone"                  # Rsync for cloud storage
 
 ]
